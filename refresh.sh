@@ -11,7 +11,7 @@ export REPOLIST=repos.txt
 #export REPOLIST=ava.txt
 
 for REPONAME in $(cat $REPOLIST) ; do
-  REPOPATH=https://github.com/hmteditors
+  REPOPATH=https://github.com/hmteditors/$REPONAME
   echo $REPOPATH
   cd ..
   if [ ! -d $REPONAME ]
