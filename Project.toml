@@ -1,3 +1,4 @@
+[deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CitableCorpus = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
 CitableImage = "17ccb2e5-db19-44b3-b354-4fd16d92c74e"
@@ -15,7 +16,7 @@ PolytonicGreek = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
 
 [compat]
 CSV = "0.8"
-CitableCorpus = "0.1"
+CitableCorpus = "0.2"
 CitableImage = "0.1"
 CitableObject = "0.5"
 CitablePhysicalText = "0.2"
