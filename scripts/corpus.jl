@@ -1,3 +1,6 @@
+# Compile a composite corpus.
+# Compile scholion<->Iliad index.
+
 using CitableText
 using CitableCorpus
 using EditorsRepo
