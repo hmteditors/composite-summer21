@@ -13,7 +13,7 @@ repodirs = [
 
 function repolist(dirlist)
     container = pwd() |> dirname
-    map(dir -> repository(string(container, "/", dir)) dirlist)
+    map(dir -> repository(string(container, "/", dir)), dirlist)
 end
 
 
