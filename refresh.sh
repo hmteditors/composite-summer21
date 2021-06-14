@@ -4,11 +4,10 @@ export PWD=`which pwd`
 export LS=`which ls`
 export CP=`which cp`
 export CAT=`which cat`
+export JULIA=`which julia`
 
 export ROOT=`pwd`
-
 export REPOLIST=repos.txt
-#export REPOLIST=ava.txt
 
 for REPONAME in $(cat $REPOLIST) ; do
   REPOPATH=https://github.com/hmteditors/$REPONAME
@@ -24,3 +23,7 @@ for REPONAME in $(cat $REPOLIST) ; do
   fi
   cd $ROOT
 done;
+
+echo "Pulled all repos"
+
+$JULIA $ROOT/coverage.jl
