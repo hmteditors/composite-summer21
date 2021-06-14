@@ -33,9 +33,12 @@ done;
 echo "Pulled all repos"
 
 # 2. Build web site for updated content.
+echo "Updating web site..."
 $JULIA $ROOT/coverage.jl
 
 # 3. Push updated website to gh
+echo "Pushing updated site to github..."
 $GIT add $ROOT/docs/*md
-$GIT commit "Automatically updated site"
+$GIT commit -m "Automatically updated site"
 $GIT push
+echo "Done."
