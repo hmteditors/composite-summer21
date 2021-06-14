@@ -9,3 +9,5 @@ nav_order: 0
 
 - [the manuscripts](../mss/)
 - [current coverage of editing](../coverage/)
+- [data sets](../datasets/)
+- [analytical notebooks](../nbs/)
