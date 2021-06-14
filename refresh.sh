@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# 1. Update content in all repos.
+# 2. Build web site for updated content.
+# 3. Push updated website to gh
+
 export GIT=`which git`
 export PWD=`which pwd`
 export LS=`which ls`
@@ -6,6 +11,8 @@ export CP=`which cp`
 export CAT=`which cat`
 export JULIA=`which julia`
 
+
+# 1. Update content in all repos.
 export ROOT=`pwd`
 export REPOLIST=repos.txt
 
@@ -23,7 +30,12 @@ for REPONAME in $(cat $REPOLIST) ; do
   fi
   cd $ROOT
 done;
-
 echo "Pulled all repos"
 
+# 2. Build web site for updated content.
 $JULIA $ROOT/coverage.jl
+
+# 3. Push updated website to gh
+$GIT add $ROOT/docs/*md
+$GIT commit "Automatically updated site"
+$GIT push
