@@ -61,9 +61,11 @@ reader = ohco2forurn(citation, u)
 o2corpus = reader(src, u)
 ortho = orthographyforurn(citation, dropversion(u))
 ntext = normednodetext(repos[1], u)
+tkncns = tokenize(ortho, ntext)
 
-tokenize(ortho, ntext)
-
+# This is it in two steps:
+tlist = normedtokens(repos[1], u)
+EditorsRepo.nodesfortokens(tlist, u)
 
 # For one repo:
 #catalog = textcatalog_df(editorsrepo())
