@@ -38,7 +38,7 @@ $JULIA $ROOT/coverage.jl
 
 # 3. Push updated website to gh
 echo "Pushing updated site to github..."
-$GIT add $ROOT/docs/*md
+$GIT add $ROOT/docs/*/*md
 $GIT add $ROOT/data/*cex
 $GIT commit -m "Automatically updated site"
 $GIT push

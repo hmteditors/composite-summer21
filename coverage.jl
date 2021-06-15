@@ -68,7 +68,7 @@ end
 
 
 # Report to web site
-outfile = "docs/coverage.md"
+outfile = "docs/coverage/index.md"
 open(outfile,"w") do io
     write(io, join(mdlines,"\n"))
 end
