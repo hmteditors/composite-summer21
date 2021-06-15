@@ -120,7 +120,7 @@ coverplot = plotall(iliadlines, schcomments)
 savefig(coverplot, "docs/coverage/coverage.png")
 
 delimited = cex(CitableTextCorpus(allnodes))
-cexfile = "data/s21corpus.cex"
+cexfile = "data/s21corpus-normed.cex"
 println("Writing CEX corpus to ", cexfile)
 open(cexfile,"w") do io
     write(io, delimited)
