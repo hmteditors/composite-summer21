@@ -63,9 +63,14 @@ ortho = orthographyforurn(citation, dropversion(u))
 ntext = normednodetext(repos[1], u)
 tkncns = tokenize(ortho, ntext)
 
+
+
 # This is it in two steps:
 tlist = normedtokens(repos[1], u)
 EditorsRepo.nodesfortokens(tlist, u)
 
+ltokens =  lextokens(repos[1], u)
+citablelex = EditorsRepo.nodesfortokens(ltokens, u)
+
 # For one repo:
-#catalog = textcatalog_df(editorsrepo())
+#catalog = textcatalog_df(editorsrepo())cita
