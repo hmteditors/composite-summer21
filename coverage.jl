@@ -82,7 +82,7 @@ function coverageplot(alliliad, allschol, title)
 
         xticks=(1:3, ["Book 8", "Book 9", "Book 10"]),
         labels =  ["Scholia" "Iliad lines" ],
-        ylabel = "Number of lines", xlabel = "Book of Iliad",
+        ylabel = "Number of passages", xlabel = "Book of Iliad",
         title = title
     )
     plotted
