@@ -9,9 +9,9 @@ mdlines = ["---","layout: page",
 "nav_order: 1", "---","","","# Current coverage of editing",""]
 
 using Dates
-t = Dates.format(now(),"U d, Y, HH:MM")
-
-datestamp = "Last modified: $t"
+calday = Dates.format(now(),"U d, Y")
+t = Dates.format(now(),"HH:MM")
+datestamp = "This page was automatically composed at $t on $calday."
 push!(mdlines, datestamp)
 
 
