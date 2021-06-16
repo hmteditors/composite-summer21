@@ -3,6 +3,11 @@ using CitableText
 using CitableCorpus
 using EditorsRepo
 
+using Orthography
+using PolytonicGreek
+using ManuscriptOrthography
+
+
 repodirs = [
     "burney86-book8",
     "omega1.12-book8-2021",
@@ -17,7 +22,6 @@ function repolist(dirlist)
 end
 
 
-repos = repolist(repodirs)
 
 function compositenormed(repolist)
     nodelist = []
@@ -29,11 +33,6 @@ function compositenormed(repolist)
     nodelist |> Iterators.flatten |> collect
 end
 
-allnodes = repodirs |> repolist |> compositenormed
-iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  allnodes)
-schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  allnodes)
-schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
-
 # Create composite citation dataframe for all repos
 function citeconfs(repos)
     composite = citation_df(repos[1])
@@ -43,34 +42,48 @@ function citeconfs(repos)
     composite
 end
 
-using Orthography
-using PolytonicGreek
-using ManuscriptOrthography
 
-
+repos = repolist(repodirs)
+allnodes = repodirs |> repolist |> compositenormed
+iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  allnodes)
+schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  allnodes)
+schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
 citation = citeconfs(repos)
-u = citation[1,:urn]
+urns = citation[:, :urn]
+####
 
 
-# This the right approach:
-# 1. Read the source text (here, XML)
-src = textsourceforurn(repos[1], u)
-# 2. get the EditionBuilder for the urn
-reader = ohco2forurn(citation, u)
-# 3. get a citable corpus of the archival version
-o2corpus = reader(src, u)
-ortho = orthographyforurn(citation, dropversion(u))
-ntext = normednodetext(repos[1], u)
-tkncns = tokenize(ortho, ntext)
+#=
+r = repos[1]
+u = urns[1]
+lextokens(r, urns[6])
+=#
+
+tokens = []
+for r in repos
+    for u in urns    
+        @warn("Token index: checking $u in repo $r")
+        println("Token index: checking $u in repo $r")
+        push!(tokens,  lextokens(r, u))
+        #push!(tokens, (r, u))
+    end
+end
+tokenlists  = []
+for t in tokens
+    if isempty(t)
+    else
+        push!(tokenlists, t)
+    end
+end
+
+hascontent = filter(!isnothing, tokens)
+
+tkncorpus = hascontent |> Iterators.flatten |> collect |> CitableTextCorpus
 
 
+tknresults = "data/scholia-tokens.cex"
+open(tknresults, "w") do io
+    write(io, cex(tkncorpus))
+end
 
-# This is it in two steps:
-tlist = normedtokens(repos[1], u)
-EditorsRepo.nodesfortokens(tlist, u)
-
-ltokens =  lextokens(repos[1], u)
-citablelex = EditorsRepo.nodesfortokens(ltokens, u)
-
-# For one repo:
-#catalog = textcatalog_df(editorsrepo())cita
+tkncorpus.corpus |> length
