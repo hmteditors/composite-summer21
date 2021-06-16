@@ -14,6 +14,6 @@ The following delimited-text files are in the `data` directory, and use `|` as t
     - [source text](https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/s21corpus-src.cex)    
 - Index of all lexical tokens
 - Token frequency tables
-- Scholia-*Iliad* indexes
+- [Scholia-*Iliad* index](https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/scholia-iliad-idx.cex)
 - Named entity indexes
 - Morphological parsing data
