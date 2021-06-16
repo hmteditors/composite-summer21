@@ -51,8 +51,9 @@ repodirs = [
 ]
 repos = repolist(repodirs)
 allnodes = repodirs |> repolist |> compositenormed
-iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  allnodes)
-schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  allnodes)
+nonempty = filter(cn -> ! isempty(cn.text), allnodes)
+iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  nonempty)
+schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  nonempty)
 schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
 
 push!(mdlines,"")
