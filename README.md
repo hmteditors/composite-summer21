@@ -3,7 +3,7 @@
 
 ## Editing and data curation
 
-This repository creates composite datasets from current editing work in five manuscripts.  See the documentation at [https://hmteditors.github.io/composite-summer21/](https://hmteditors.github.io/composite-summer21/)
+This repository creates composite datasets from current editing work in five manuscripts.  See the [documentation](https://hmteditors.github.io/composite-summer21/), including automatically generated [summaries of current coverage](https://hmteditors.github.io/composite-summer21/coverage/).
 
 ## Data sets
 
