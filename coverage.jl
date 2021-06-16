@@ -106,6 +106,8 @@ nonempty = filter(cn -> ! isempty(cn.text), allnodes)
 iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  nonempty)
 schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  nonempty)
 schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
+reff = filter(cn -> endswith(passagecomponent(cn.urn), "ref"), allnodes)
+
 
 push!(mdlines,"")
 push!(mdlines,"Total citable nodes: $(length(nonempty))")
@@ -177,6 +179,25 @@ println("Writing CEX for normalized corpus to ", cexfile)
 open(cexfile,"w") do io
     write(io, delimited)
 end
+
+prs = []
+badprs = []
+for ref in reff
+    try
+        iliad = ref.text |> CtsUrn
+        scholurn = addversion(collapsePassageBy(ref.urn, 1), "hmt")
+        pr = string(scholurn.urn, "|", iliad.urn)
+        push!(prs, pr)
+    catch err
+        push!(badprs, ref)
+        println("BAD $ref")
+    end
+end
+idxfile = "data/scholia-iliad-idx.cex"
+open(idxfile, "w") do io
+    write(io, join(prs,"\n"))
+end
+
 
 
 # Report to web site
