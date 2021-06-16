@@ -57,7 +57,7 @@ schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  nonempty)
 schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
 
 push!(mdlines,"")
-push!(mdlines,"Total citable nodes: $(length(allnodes))")
+push!(mdlines,"Total citable nodes: $(length(nonempty))")
 push!(mdlines,"")
 push!(mdlines,"Iliad lines: $(length(iliadlines))")
 push!(mdlines,"")
@@ -120,7 +120,7 @@ end
 coverplot = plotall(iliadlines, schcomments)
 savefig(coverplot, "docs/coverage/coverage.png")
 
-delimited = cex(CitableTextCorpus(allnodes))
+delimited = cex(CitableTextCorpus(nonempty))
 cexfile = "data/s21corpus-normed.cex"
 println("Writing CEX corpus to ", cexfile)
 open(cexfile,"w") do io
