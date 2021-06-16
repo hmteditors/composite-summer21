@@ -3,7 +3,38 @@ println("Activating project in ", pwd())
 Pkg.activate(".")
 Pkg.instantiate()
 
-# Page content as individual lines of markdown:
+using CitableText
+using CitableCorpus
+using EditorsRepo
+using StatsPlots
+
+# GH repos with current editing work:
+repodirs = [
+    "burney86-book8",
+    "omega1.12-book8-2021",
+    "upsilon1.1-2021",
+    "va-2021",
+    "vb-2021"
+]
+# Instantiate EditorialRepository's:
+function repolist(dirlist)
+    container = pwd() |> dirname
+    map(dir -> repository(string(container, "/", dir)), dirlist)
+end
+# Create composite citation dataframe for all repos
+function citeconfs(repos)
+    composite = citation_df(repos[1])
+    for i in 2:length(repos)
+        composite = vcat(composite,citation_df(repos[i]) )
+    end
+    composite
+end
+
+repos = repolist(repodirs)
+citation = citeconfs(repos)
+
+
+# Content of coverage page as individual lines of markdown:
 mdlines = ["---","layout: page",
 "title: \"Current coverage of editing\"",
 "nav_order: 1", "---","","","# Current coverage of editing",""]
@@ -15,16 +46,45 @@ datestamp = "This page was automatically composed at $t on $calday."
 push!(mdlines, datestamp)
 
 
-using CitableText
-using CitableCorpus
-using EditorsRepo
-using StatsPlots
 
-# Instantiate EditorialRepository's:
-function repolist(dirlist)
-    container = pwd() |> dirname
-    map(dir -> repository(string(container, "/", dir)), dirlist)
+# Create a citable corpus of archival text in a repo
+function archivalcorpus(r::EditingRepository, citesdf)
+    urns = citesdf[:, :urn]
+
+    corpora = []
+    for u in urns
+        # 1. Read the source text (here, XML)
+        src = textsourceforurn(r, u)
+        if isnothing(src)
+            # skip it
+        else
+            # 2. get the EditionBuilder for the urn
+            reader = ohco2forurn(citesdf, u)
+            # 3. create citable corpus of the archival version
+            push!(corpora, reader(src, u))
+        end
+    end
+    CitableCorpus.composite_array(corpora)
 end
+
+
+# Create a single archival corpus for all repos in repolist
+function fullarchive(repolist, citedf)
+    corpora = []
+    for r in repolist
+        push!(corpora, archivalcorpus(r, citedf))
+    end
+    CitableCorpus.composite_array(corpora)
+end
+
+
+allarchival = fullarchive(repos, citation)
+archivefile = "data/s21corpus-src.cex"
+println("Writing CEX corpus for archival source to ", archivefile)
+open(archivefile,"w") do io
+    write(io, cex(allarchival))
+end
+
 
 # Create a single composite Vector of all citable nodes,
 # in normalized text edition
@@ -41,15 +101,6 @@ function compositenormed(repolist)
 end
 
 
-# GH repos with current editing work:
-repodirs = [
-    "burney86-book8",
-    "omega1.12-book8-2021",
-    "upsilon1.1-2021",
-    "va-2021",
-    "vb-2021"
-]
-repos = repolist(repodirs)
 allnodes = repodirs |> repolist |> compositenormed
 nonempty = filter(cn -> ! isempty(cn.text), allnodes)
 iliadlines = filter(cn -> contains(cn.urn.urn, "tlg0012"),  nonempty)
@@ -122,7 +173,7 @@ savefig(coverplot, "docs/coverage/coverage.png")
 
 delimited = cex(CitableTextCorpus(nonempty))
 cexfile = "data/s21corpus-normed.cex"
-println("Writing CEX corpus to ", cexfile)
+println("Writing CEX for normalized corpus to ", cexfile)
 open(cexfile,"w") do io
     write(io, delimited)
 end
