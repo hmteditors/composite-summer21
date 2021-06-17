@@ -39,14 +39,15 @@ md"> Functions to count and plot data"
 
 # ╔═╡ 8dd35bdf-d3e0-478a-a57d-54a98fefcbe7
 function plotcount(counts, labels, termlimit)
-	xtix = (1:termlimit, labels[1:termlimit])
-	bar(counts[1:lmt], xticks=xtix, xrotation=45, xlabel="Term", label="Number of occurrences", bar_width=0.7)
+	lim = termlimit > length(counts) ? length(counts) : termlimit
+	xtix = (1:lim, labels[1:lim])
+	bar(counts[1:lim], xticks=xtix, xrotation=45, xlabel="Person", label="Occurrences", bar_width=0.7)
 end
 
 # ╔═╡ 1270b3f9-c1ec-4711-b25c-fe404c4634c3
 # Compose sorted count of values in the :token field of a DataFrame
 function wordcounts(tokendf)
-	tkns = map(s -> lowercase(s), tokendf[:, :token])
+	tkns = map(s -> lowercase(s), tokendf[:, :person])
 	tkndf = DataFrame(token = tkns)
 	tkncounts = groupby(tkndf, :token)
 
@@ -64,8 +65,8 @@ end
 md"> Data"
 
 # ╔═╡ e60e33de-ae75-473c-8d0b-49c97af5b7f0
-# URL for full token index
-idxurl = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/scholia-tokens.cex"
+# URL for full index of personal names
+idxurl = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/persnameidx.cex"
 
 # ╔═╡ 6acf8d5b-0682-4f3b-9485-f63adc56f6b3
 # Read token index into a DataFrame
@@ -970,7 +971,7 @@ version = "0.9.1+5"
 # ╟─b6455bcc-6efe-4604-ad1e-c2df66b3997a
 # ╟─d6f01465-0d57-41cc-b42f-bbeccc53fcc6
 # ╟─547a011b-ecb6-4ec7-a493-10029435f9b6
-# ╠═8dd35bdf-d3e0-478a-a57d-54a98fefcbe7
+# ╟─8dd35bdf-d3e0-478a-a57d-54a98fefcbe7
 # ╟─1270b3f9-c1ec-4711-b25c-fe404c4634c3
 # ╠═d099f423-5db0-4a62-b81b-dc7dfe5f152d
 # ╟─ac59e702-268f-4fed-b596-ecf617a7ffaa
