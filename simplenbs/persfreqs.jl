@@ -64,10 +64,9 @@ df = CSV.File(HTTP.get(idxurl).body) |> DataFrame
 # Sorted pairs of count, term
 counttuples = wordcounts(df)
 
-# ╔═╡ 94cd7053-8ebe-48b4-a2d8-e1c979bc0df4
+# ╔═╡ c18c230e-4587-4863-abd3-c2b5cd76c11d
 # Sorted list of tokens
-labels = map(pr -> pr[2], counttuples)
-
+labelurns = map(pr -> pr[2], counttuples)
 
 # ╔═╡ 6932c8d8-a011-420b-be45-d2fcc2fca4da
 # Sorted list of frequencies
@@ -81,6 +80,27 @@ See counts in books 8-10 for **$(length(counts))** personal names.
 
 Use the slider to choose how many names to display.
 """
+
+# ╔═╡ 9c412fce-2064-4227-8e11-76c06d50058c
+authurl  = "https://raw.githubusercontent.com/homermultitext/hmt-authlists/master/data/hmtnames.cex"
+
+# ╔═╡ 83799089-1f4f-4c91-98bb-7458dd67b416
+authdf = CSV.File(HTTP.get(authurl).body; delim = "#", header = 2) |> DataFrame
+
+# ╔═╡ 96c92572-70b1-4bcb-969b-17f00ecd5f4b
+function labelforurn(u)
+	matched = filter( r -> r.urn == u, authdf)
+	if nrow(matched) < 1
+		u
+	else
+		matched[1,:label]
+	end
+end
+
+# ╔═╡ 94cd7053-8ebe-48b4-a2d8-e1c979bc0df4
+# Sorted list of tokens
+labels = map(pr -> labelforurn(pr[2]), counttuples)
+
 
 # ╔═╡ d6f01465-0d57-41cc-b42f-bbeccc53fcc6
 plotcount(counts, labels,lmt)
@@ -961,7 +981,7 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╠═c04eed94-7b45-41a5-81a8-21d8f390bef1
+# ╟─c04eed94-7b45-41a5-81a8-21d8f390bef1
 # ╟─67421fba-f2b9-43d5-bff5-2624da81d1c5
 # ╟─0268a63a-368b-453e-9ee6-e5d001945e9a
 # ╟─4b4ab934-cf6f-11eb-0ce5-5bfeda45ec58
@@ -973,8 +993,12 @@ version = "0.9.1+5"
 # ╟─ac59e702-268f-4fed-b596-ecf617a7ffaa
 # ╟─b139ef55-ba92-486e-9615-0f92136ba574
 # ╟─94cd7053-8ebe-48b4-a2d8-e1c979bc0df4
+# ╟─96c92572-70b1-4bcb-969b-17f00ecd5f4b
+# ╟─c18c230e-4587-4863-abd3-c2b5cd76c11d
 # ╟─6932c8d8-a011-420b-be45-d2fcc2fca4da
 # ╟─e60e33de-ae75-473c-8d0b-49c97af5b7f0
-# ╠═6acf8d5b-0682-4f3b-9485-f63adc56f6b3
+# ╟─6acf8d5b-0682-4f3b-9485-f63adc56f6b3
+# ╟─9c412fce-2064-4227-8e11-76c06d50058c
+# ╟─83799089-1f4f-4c91-98bb-7458dd67b416
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
