@@ -22,7 +22,6 @@ function repolist(dirlist)
 end
 
 
-
 function compositenormed(repolist)
     nodelist = []
     for r in repolist
@@ -50,14 +49,7 @@ schnodes = filter(cn -> contains(cn.urn.urn, "tlg5026"),  allnodes)
 schcomments = filter(cn -> endswith(passagecomponent(cn.urn),"comment"), schnodes)
 citation = citeconfs(repos)
 urns = citation[:, :urn]
-####
 
-
-#=
-r = repos[1]
-u = urns[1]
-lextokens(r, urns[6])
-=#
 
 tokens = []
 for r in repos
@@ -65,7 +57,6 @@ for r in repos
         @warn("Token index: checking $u in repo $r")
         println("Token index: checking $u in repo $r")
         push!(tokens,  lextokens(r, u))
-        #push!(tokens, (r, u))
     end
 end
 tokenlists  = []
@@ -80,10 +71,10 @@ hascontent = filter(!isnothing, tokens)
 
 tkncorpus = hascontent |> Iterators.flatten |> collect |> CitableTextCorpus
 
-
 tknresults = "data/scholia-tokens.cex"
 open(tknresults, "w") do io
     write(io, cex(tkncorpus))
 end
 
-tkncorpus.corpus |> length
+totalnodes = tkncorpus.corpus |> length
+println("Indexed $totalnodes lexical tokens.")
