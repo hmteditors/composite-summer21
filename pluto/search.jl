@@ -56,7 +56,7 @@ function formatted(psgs, s)
 			words[i] = """<span class="hl">$(words[i])</span>"""
 		end
         #txt = replace(psg.text, s => """<span class="hl">$s</span>""")
-        push!(formatted, string(urn, " ", join(words, " ")))
+        push!(formatted, string("<li>", urn, " ", join(words, " "), "</li>"))
     end
 	push!(formatted, "</ol>")
     HTML(join(formatted, "\n"))
