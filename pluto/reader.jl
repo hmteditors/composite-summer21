@@ -73,7 +73,8 @@ md"> Functions and formatting"
 # ╔═╡ 55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # Compose HTML to display a list of CitableNodes
 function formatscholia(nodes)
-	outputlines = [string("**", length(nodes), "** scholia comment on the line.", "")]
+	label = length(nodes) > 1 ? "scholia comment" : "scholion comments"
+	outputlines = [string("**", length(nodes), "** ", label, " on the line.", "")]
 	for n in nodes
 		siglum = workparts(n)[2]
 		ref = passagecomponent(n)
@@ -92,7 +93,7 @@ end
 # ╔═╡ 4ef41735-2532-40a2-b1b1-21bdf9bf9765
 # Use index to lookup URNs for scholia commenting on Iliad line
 function findscholia(psgstr)
-	if isempty(psgstr)
+	if isempty(psgstr) || length(psgstr) < 3
 		msg = "Enter a passage (<code>book.line</code>)"
 		HTML(string("<span class=\"hint\">", msg, "</span>"))
 	else
@@ -128,7 +129,7 @@ end
 # ╔═╡ 1d5e2f8a-fa95-4adb-87e0-d22f95089689
 # Find Iliad passages in corpus for book.line reference
 function findiliad(psgstr)
-	if isempty(psgstr)
+	if isempty(psgstr) || length(psgstr) < 3
 		msg = "Enter a passage (<code>book.line</code>)"
 		HTML(string("<span class=\"hint\">", msg, "</span>"))
 	else

@@ -64,7 +64,8 @@ md"> Functions and formatting"
 # ╔═╡ 55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # Compose HTML to display a list of CitableNodes
 function formatscholia(nodes)
-	outputlines = [string("**", length(nodes), "** scholia comment on the line.", "")]
+	label = length(nodes) > 1 ? "scholia comment" : "scholion comments"
+	outputlines = [string("**", length(nodes), "** ", label, " on the line.", "")]
 	for n in nodes
 		siglum = workparts(n)[2]
 		ref = passagecomponent(n)
@@ -83,7 +84,7 @@ end
 # ╔═╡ 4ef41735-2532-40a2-b1b1-21bdf9bf9765
 # Use index to lookup URNs for scholia commenting on Iliad line
 function findscholia(psgstr)
-	if isempty(psgstr)
+	if isempty(psgstr)  || length(psgstr) < 3
 		msg = "Enter a passage (<code>book.line</code>)"
 		HTML(string("<span class=\"hint\">", msg, "</span>"))
 	else
@@ -119,7 +120,7 @@ end
 # ╔═╡ 1d5e2f8a-fa95-4adb-87e0-d22f95089689
 # Find Iliad passages in corpus for book.line reference
 function findiliad(psgstr)
-	if isempty(psgstr)
+	if isempty(psgstr) || length(psgstr) < 3
 		msg = "Enter a passage (<code>book.line</code>)"
 		HTML(string("<span class=\"hint\">", msg, "</span>"))
 	else
@@ -156,15 +157,6 @@ span.hl {
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
-[compat]
-CSV = "~0.8.5"
-CitableCorpus = "~0.2.0"
-CitableText = "~0.9.0"
-DataFrames = "~1.1.1"
-EditorsRepo = "~0.11.4"
-HTTP = "~0.9.10"
-PlutoUI = "~0.7.9"
-
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CitableCorpus = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
@@ -174,6 +166,15 @@ EditorsRepo = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+
+[compat]
+CSV = "~0.8.5"
+CitableCorpus = "~0.2.0"
+CitableText = "~0.9.0"
+DataFrames = "~1.1.1"
+EditorsRepo = "~0.11.4"
+HTTP = "~0.9.10"
+PlutoUI = "~0.7.9"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -626,7 +627,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─548e5db0-25bf-4e0d-927a-71f3484f2a08
 # ╟─3a71212c-d174-4f56-b998-58490c0fde1d
 # ╟─4ef41735-2532-40a2-b1b1-21bdf9bf9765
-# ╟─55ff794c-9159-4bde-8e1f-b7df001ca6d8
+# ╠═55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # ╟─1d5e2f8a-fa95-4adb-87e0-d22f95089689
 # ╟─b23b45f7-1f82-4ad4-b2d6-4099588b7902
 # ╟─c029d865-b83d-4985-b177-93c5ac73c8b2
