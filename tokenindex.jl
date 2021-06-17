@@ -1,4 +1,8 @@
-
+import Pkg
+println("Activating project in ", pwd())
+Pkg.activate(".")
+Pkg.instantiate()
+    
 using CitableText
 using CitableCorpus
 using EditorsRepo
