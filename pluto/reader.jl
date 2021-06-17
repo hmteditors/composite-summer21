@@ -99,8 +99,13 @@ function findscholia(psgstr)
 	else
 		urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:$psgstr")
 		matches = filter(pr -> urncontains(urn, pr[2]), idx)
-		scholia = map(pr -> pr[1], matches)
-		formatscholia(scholia)
+		if isempty(matches)
+			msg = "No scholia found for $psgstr"
+			HTML(string("<span class=\"hint\">", msg, "</span>"))
+		else
+			scholia = map(pr -> pr[1], matches)
+			formatscholia(scholia)
+		end
 	end
 end
 

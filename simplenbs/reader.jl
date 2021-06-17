@@ -90,8 +90,13 @@ function findscholia(psgstr)
 	else
 		urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:$psgstr")
 		matches = filter(pr -> urncontains(urn, pr[2]), idx)
-		scholia = map(pr -> pr[1], matches)
-		formatscholia(scholia)
+		if isempty(matches)
+			msg = "No scholia found for $psgstr"
+			HTML(string("<span class=\"hint\">", msg, "</span>"))
+		else
+			scholia = map(pr -> pr[1], matches)
+			formatscholia(scholia)
+		end
 	end
 end
 
@@ -627,7 +632,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─548e5db0-25bf-4e0d-927a-71f3484f2a08
 # ╟─3a71212c-d174-4f56-b998-58490c0fde1d
 # ╟─4ef41735-2532-40a2-b1b1-21bdf9bf9765
-# ╠═55ff794c-9159-4bde-8e1f-b7df001ca6d8
+# ╟─55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # ╟─1d5e2f8a-fa95-4adb-87e0-d22f95089689
 # ╟─b23b45f7-1f82-4ad4-b2d6-4099588b7902
 # ╟─c029d865-b83d-4985-b177-93c5ac73c8b2
