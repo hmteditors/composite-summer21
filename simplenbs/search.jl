@@ -16,6 +16,10 @@ end
 # ╔═╡ 58b9fb4b-64a2-4f89-804e-9042cf8a013d
 using CitableText, CitableCorpus, PolytonicGreek, PlutoUI
 
+# ╔═╡ a6b5cae1-a8c8-44f8-b9e1-051ee5524f97
+html"<p><span class=\"hint\">(The hidden cell above this one has configuration of this notebook for use with Pluto 0.15 or later.)</span></p>"
+
+
 # ╔═╡ 2a260b76-ceb3-11eb-3429-c55e6e1df240
 md"""> ### Search text of scholia
 >
@@ -130,17 +134,17 @@ end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
-[compat]
-CitableCorpus = "~0.2.1"
-CitableText = "~0.9.0"
-PlutoUI = "~0.7.9"
-PolytonicGreek = "~0.12.0"
-
 [deps]
 CitableCorpus = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
 CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PolytonicGreek = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
+
+[compat]
+CitableCorpus = "~0.2.1"
+CitableText = "~0.9.0"
+PlutoUI = "~0.7.9"
+PolytonicGreek = "~0.12.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -502,6 +506,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 
 # ╔═╡ Cell order:
 # ╟─58b9fb4b-64a2-4f89-804e-9042cf8a013d
+# ╟─a6b5cae1-a8c8-44f8-b9e1-051ee5524f97
 # ╟─2a260b76-ceb3-11eb-3429-c55e6e1df240
 # ╟─a538c813-8808-4562-b03a-27b0373eb3a8
 # ╟─8cf8d639-141d-42d0-a37d-d90dbb2ad2b9
