@@ -7,7 +7,6 @@ using Orthography
 using PolytonicGreek
 using ManuscriptOrthography
 
-
 repodirs = [
     "burney86-book8",
     "omega1.12-book8-2021",
@@ -20,7 +19,6 @@ function repolist(dirlist)
     container = pwd() |> dirname
     map(dir -> repository(string(container, "/", dir)), dirlist)
 end
-
 
 function compositenormed(repolist)
     nodelist = []
@@ -68,12 +66,11 @@ for t in tokens
 end
 
 hascontent = filter(!isnothing, tokens)
-
 tkncorpus = hascontent |> Iterators.flatten |> collect |> CitableTextCorpus
 
 tknresults = "data/scholia-tokens.cex"
 open(tknresults, "w") do io
-    write(io, cex(tkncorpus))
+    write(io, string("urn|token\n", cex(tkncorpus)))
 end
 
 totalnodes = tkncorpus.corpus |> length
