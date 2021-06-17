@@ -6,7 +6,7 @@ using CitablePhysicalText
 using DataFrames
 
 
-## THESE ARE REPLICATED:
+## THESE ARE REPLICATED FROM coverage.jl
 # GH repos with current editing work:
 repodirs = [
     "burney86-book8",
@@ -69,6 +69,8 @@ others = filter(cn -> ! contains(cn.urn.urn, "tlg5026"), allarchival.corpus)
 otherurnstrs = map(cn -> cn.urn.urn, others )
 
 
+allurnstrs = vcat(scholiaurnstrs, otherurnstrs)
+allurns =  map(s -> CtsUrn(s), allurnstrs)
 ###
 
 repodses = []
@@ -78,26 +80,31 @@ end
 dses = vcat(repodses[1], repodses[2], repodses[3], repodses[4], repodses[5])
 surfs = dses[:, :surface] |> unique
 
-function urnok(u::CtsUrn)
-    if contains(u.urn, "tlg5026")
-        # check scholia list
-        u.urn in scholiaurnstrs
-    else
-        u.urn in otherurnstrs
-        # check everything
-    end
-end
 
-fails = []
+notfoundincorpus = []
 for surf in surfs
     txts = filter( r -> r.surface == surf,  dses)
     for t in txts[:, :passage]
-        if ! urnok(t)
-            push!(fails, (surf, t))
+        if t.urn in allurnstrs
+        else
+            push!(notfoundincorpus, (surf, t))
         end
     end
 end
 
-filter(pr -> contains(pr[1].urn, "e4"),  fails)
 
-println(join(fails, "\n"))
+noomega = filter(pr -> ! contains(pr[1].urn, "e4"),  notfoundincorpus)
+println(join(notfoundincorpus, "\n"))
+
+badsurfs = map(pr -> pr[1], notfoundincorpus) |> unique
+dses |> nrow
+
+
+notfoundindse = []
+for u in allurns
+    matchcount = filter(r -> u == r.passage, dses)  |> nrow
+     if matchcount == 0
+        push!(notfoundindse, u)
+     end
+end
+println(join(notfoundindse,"\n"))
