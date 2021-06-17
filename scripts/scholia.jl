@@ -34,9 +34,11 @@ function formatscholia(nodes)
 	for n in nodes
 		siglum = workparts(n)[2]
 		ref = passagecomponent(n)
-		matches = filter(cn -> urncontains(n, cn.urn), noreff)
+        println("Match $n")
+		matches = filter(cn -> urncontains(dropversion(n), cn.urn), noreff)
+        println("Got $(length(matches)) hits.")
 		for sch in matches
-			psg = string("1. **", siglum, ", ", ref, "** ", sch.text)
+			psg = string("- **", siglum, ", ", ref, "** ", sch.text)
 			push!(outputlines, psg)
 		end
 
@@ -47,10 +49,14 @@ function formatscholia(nodes)
 end
 
 
+u = CtsUrn("urn:cts:greekLit:tlg5026.msA:8")
+hits = filter(cn -> urncontains(u, cn.urn), noreff) 
+findscholia("8.1")
+
 
 # Load current corpus 
+reporoot = pwd() |> dirname
 c = begin 
-	reporoot = pwd() |> dirname
 	url = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/s21corpus-normed.cex"
 	fromurl(CitableTextCorpus, url, "|")
 end
@@ -60,4 +66,3 @@ noreff = filter(cn -> ! endswith(cn.urn.urn, "ref"),  c.corpus)
 
 idx = buildindex()
 
-findscholia("8.1")

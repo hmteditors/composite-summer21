@@ -79,9 +79,9 @@ function formatscholia(nodes)
 	for n in nodes
 		siglum = workparts(n)[2]
 		ref = passagecomponent(n)
-		matches = filter(cn -> urncontains(n, cn.urn), noreff)
+		matches = filter(cn -> urncontains(dropversion(n), cn.urn), noreff)
 		for sch in matches
-			psg = string("1. **", siglum, ", ", ref, "** ", sch.text)
+			psg = string("- **", siglum, ", ", ref, "** ", sch.text)
 			push!(outputlines, psg)
 		end
 
@@ -632,15 +632,15 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─79807bcc-a844-4d5d-983f-6659b5f7f09e
 # ╟─4da203cc-ed15-4e60-a841-7a0c68edf067
 # ╟─f245588b-ee3b-48a1-83a5-682100623b72
-# ╠═3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
-# ╠═9d985a3b-182d-45f8-8cd2-33615971ce09
+# ╟─3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
+# ╟─9d985a3b-182d-45f8-8cd2-33615971ce09
 # ╟─0ee82e23-85e7-40e5-8a2a-27e7609d25aa
 # ╟─548e5db0-25bf-4e0d-927a-71f3484f2a08
 # ╟─3a71212c-d174-4f56-b998-58490c0fde1d
 # ╟─4ef41735-2532-40a2-b1b1-21bdf9bf9765
 # ╟─55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # ╟─1d5e2f8a-fa95-4adb-87e0-d22f95089689
-# ╠═b23b45f7-1f82-4ad4-b2d6-4099588b7902
+# ╟─b23b45f7-1f82-4ad4-b2d6-4099588b7902
 # ╟─c029d865-b83d-4985-b177-93c5ac73c8b2
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
