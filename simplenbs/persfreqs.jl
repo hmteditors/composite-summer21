@@ -49,9 +49,6 @@ function wordcounts(tokendf)
 	histdata = sort(prs; rev=true)
 end
 
-# ╔═╡ d099f423-5db0-4a62-b81b-dc7dfe5f152d
-
-
 # ╔═╡ ac59e702-268f-4fed-b596-ecf617a7ffaa
 md"> Data"
 
@@ -964,7 +961,7 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─c04eed94-7b45-41a5-81a8-21d8f390bef1
+# ╠═c04eed94-7b45-41a5-81a8-21d8f390bef1
 # ╟─67421fba-f2b9-43d5-bff5-2624da81d1c5
 # ╟─0268a63a-368b-453e-9ee6-e5d001945e9a
 # ╟─4b4ab934-cf6f-11eb-0ce5-5bfeda45ec58
@@ -973,12 +970,11 @@ version = "0.9.1+5"
 # ╟─547a011b-ecb6-4ec7-a493-10029435f9b6
 # ╟─8dd35bdf-d3e0-478a-a57d-54a98fefcbe7
 # ╟─1270b3f9-c1ec-4711-b25c-fe404c4634c3
-# ╠═d099f423-5db0-4a62-b81b-dc7dfe5f152d
 # ╟─ac59e702-268f-4fed-b596-ecf617a7ffaa
 # ╟─b139ef55-ba92-486e-9615-0f92136ba574
 # ╟─94cd7053-8ebe-48b4-a2d8-e1c979bc0df4
 # ╟─6932c8d8-a011-420b-be45-d2fcc2fca4da
 # ╟─e60e33de-ae75-473c-8d0b-49c97af5b7f0
-# ╟─6acf8d5b-0682-4f3b-9485-f63adc56f6b3
+# ╠═6acf8d5b-0682-4f3b-9485-f63adc56f6b3
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
