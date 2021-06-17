@@ -71,7 +71,7 @@ function indexnode(cn::CitableNode)
     matchlist = []
     for dude in dudematches
         if haskey(dude, "n")
-            push!(matchlist, dude["n"], dude.content)
+            push!(matchlist, (dude["n"], dude.content))
         else
             push!(badurns, cn.urn)
         end
@@ -86,3 +86,20 @@ badurns |> length
 nonempty |> length
 
 println(join(badurns, "\n"))
+
+
+idxpairs = ["passage|person"]
+for psg in nonempty
+    for pers in psg[2]
+        push!(idxpairs, string(psg[1].urn,"|", pers[1]))
+    end
+end
+idxpairs
+
+
+nonempty[1][2]
+
+outfile = "data/persnameidx.cex"
+open(outfile, "w") do io
+    write(io, join(idxpairs, "\n"))
+end
