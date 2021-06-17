@@ -22,15 +22,6 @@ plotly()
 # ╔═╡ 0268a63a-368b-453e-9ee6-e5d001945e9a
 md"(The hidden cells above configure the notebook for use with Pluto 0.15 or later.)"
 
-# ╔═╡ 4b4ab934-cf6f-11eb-0ce5-5bfeda45ec58
-md"""> ## Frequencies of personal names
-
-
-See counts in books 8-10.
-
-Use the slider to choose how many names to display.
-"""
-
 # ╔═╡ b6455bcc-6efe-4604-ad1e-c2df66b3997a
 md"""Number to show: $(@bind lmt Slider(15:500; default=20, show_value=true))"""
 
@@ -84,6 +75,15 @@ labels = map(pr -> pr[2], counttuples)
 # ╔═╡ 6932c8d8-a011-420b-be45-d2fcc2fca4da
 # Sorted list of frequencies
 counts = map(pr -> pr[1], counttuples)
+
+# ╔═╡ 4b4ab934-cf6f-11eb-0ce5-5bfeda45ec58
+md"""> ## Frequencies of personal names
+
+
+See counts in books 8-10 for **$(length(counts))** personal names.
+
+Use the slider to choose how many names to display.
+"""
 
 # ╔═╡ d6f01465-0d57-41cc-b42f-bbeccc53fcc6
 plotcount(counts, labels,lmt)
