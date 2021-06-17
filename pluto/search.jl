@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.8
+# v0.15.0
 
 using Markdown
 using InteractiveUtils
@@ -16,8 +16,10 @@ end
 # ╔═╡ 58b9fb4b-64a2-4f89-804e-9042cf8a013d
 begin
 	using Pkg
-	Pkg.activate(pwd() |> dirname)
-	Pkg.instantiate()
+	Pkg.add("CitableText")
+	Pkg.add("CitableCorpus")
+	Pkg.add("PolytonicGreek")
+	Pkg.add("PlutoUI")
 	using CitableText, CitableCorpus, PolytonicGreek
 	using PlutoUI
 end
