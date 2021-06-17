@@ -29,17 +29,6 @@ md"> ### Multitextual scholia reader"
 # ╔═╡ a49511bc-7c6c-4195-b3ac-d804c821f723
 md"""Enter an *Iliad* passage (`book.line`) $(@bind psg TextField((6,1); default="8.1"))"""	
 
-# ╔═╡ 4da203cc-ed15-4e60-a841-7a0c68edf067
-md"""
-TBD:
-
-- read scholia-*Iliad* index
-- take *Iliad* line from user input
-- display versions of *Iliad* line and all scholia on that line
-
-
-"""
-
 # ╔═╡ f245588b-ee3b-48a1-83a5-682100623b72
 md"> Datasets"
 
@@ -630,7 +619,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─a49511bc-7c6c-4195-b3ac-d804c821f723
 # ╟─58af5e1f-0e0c-4cc4-b4ec-f2b8aeaee78f
 # ╟─79807bcc-a844-4d5d-983f-6659b5f7f09e
-# ╟─4da203cc-ed15-4e60-a841-7a0c68edf067
 # ╟─f245588b-ee3b-48a1-83a5-682100623b72
 # ╟─3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
 # ╟─9d985a3b-182d-45f8-8cd2-33615971ce09
