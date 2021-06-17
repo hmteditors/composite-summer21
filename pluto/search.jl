@@ -18,19 +18,23 @@ begin
 	using Pkg
 	Pkg.activate(pwd() |> dirname)
 	Pkg.instantiate()
-	using CitableText, CitableCorpus, PolytonicGreek, Dates
+	using CitableText, CitableCorpus, PolytonicGreek
 	using PlutoUI
-	
 end
+
+# ╔═╡ 446c843c-dfec-42fd-9017-897591ec044e
+html"<p><span class=\"hint\">(The hidden cell above this one has configuration of this notebook for use with versions of Pluto prior to 0.15.)</span></p>"
 
 # ╔═╡ 2a260b76-ceb3-11eb-3429-c55e6e1df240
 md"""> ### Search text of scholia
 >
-> Enter text in Greek with no accents.
+> Use this notebook to search work in progress editing *scholia* to *Iliad* 8-10 in 5 manuscripts.  (See more details about [what is currently available](https://hmteditors.github.io/composite-summer21/coverage/).)
+
+Enter text to search for in Greek with no accents.
 """
 
 # ╔═╡ a538c813-8808-4562-b03a-27b0373eb3a8
-md"""Search for: $(@bind s TextField())"""
+md"""Search for: $(@bind s TextField()) $(@bind refresh Button("Refresh"))"""
 
 # ╔═╡ aec1ac3d-e4dd-4ba0-834c-e2c13101851e
 md"> Search and formatting"
@@ -45,7 +49,7 @@ end
 # ╔═╡ fc616d86-c81e-4ff2-b695-0795888b3123
 function formatted(psgs, s)
     formatted = [
-		string("<p>Number of matching passages: ", "<b>", length(psgs), "</b></p>"),
+		string("<p>", "<b>", length(psgs), "</b> passages matching <span class=\"hl\">", s,  "</span></p>"),
 		"<ol>"
 	]
 	for psg in psgs
@@ -83,9 +87,8 @@ md"""> Data"""
 # ╔═╡ 7943cd64-8b41-4984-ad69-08a3ef45049c
 c = begin 
 	reporoot = pwd() |> dirname
-	f = string(reporoot, "/data/s21corpus-normed.cex")
-	fromfile(CitableTextCorpus, f)
-	
+	url = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/s21corpus-normed.cex"
+	fromurl(CitableTextCorpus, url, "|")
 end
 
 # ╔═╡ 70bcea19-28ba-45fb-aff2-0583063cbf9b
@@ -130,12 +133,13 @@ end
 
 # ╔═╡ 8cf8d639-141d-42d0-a37d-d90dbb2ad2b9
 begin
-	#dosearch
+	refresh
 	searchresults(s)
 end
 
 # ╔═╡ Cell order:
 # ╟─58b9fb4b-64a2-4f89-804e-9042cf8a013d
+# ╟─446c843c-dfec-42fd-9017-897591ec044e
 # ╟─2a260b76-ceb3-11eb-3429-c55e6e1df240
 # ╟─a538c813-8808-4562-b03a-27b0373eb3a8
 # ╟─8cf8d639-141d-42d0-a37d-d90dbb2ad2b9
