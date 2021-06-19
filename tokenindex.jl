@@ -57,7 +57,7 @@ tokens = []
 for r in repos
     for u in urns    
         @warn("Token index: checking $u in repo $r")
-        println("Token index: checking $u in repo $r")
+        @warn("(Already collected $(length(tokens)) tokens.)")
         push!(tokens,  lextokens(r, u))
     end
 end

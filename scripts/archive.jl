@@ -29,3 +29,12 @@ function archivalcorpus(r::EditingRepository, citesdf)
 end
 
 archivaltexts = archivalcorpus(repo, citation)
+
+texts = texturns(repo)
+normednodes = []
+for t in texts
+    nds = normalizednodes(repo, t)
+    push!(normednodes, nds)        
+end
+normed = filter(nodelist -> ! isnothing(nodelist), normednodes) |> Iterators.flatten |> collect |> CitableTextCorpus
+normed.corpus |> length
