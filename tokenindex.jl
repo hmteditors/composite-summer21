@@ -63,7 +63,7 @@ for r in repos
 end
 tokenlists  = []
 for t in tokens
-    if isempty(t)
+    if isnothing(t)
     else
         push!(tokenlists, t)
     end
