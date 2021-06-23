@@ -77,12 +77,12 @@ function fullarchive(repolist, citedf)
     CitableCorpus.composite_array(corpora)
 end
 
-
+hdr = "urn|passage"
 allarchival = fullarchive(repos, citation)
 archivefile = "data/s21corpus-src.cex"
 println("Writing CEX corpus for archival source to ", archivefile)
 open(archivefile,"w") do io
-    write(io, cex(allarchival))
+    write(io, string(hdr, "\n", cex(allarchival)))
 end
 
 
