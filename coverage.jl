@@ -177,7 +177,7 @@ delimited = cex(CitableTextCorpus(nonempty))
 cexfile = "data/s21corpus-normed.cex"
 println("Writing CEX for normalized corpus to ", cexfile)
 open(cexfile,"w") do io
-    write(io, delimited)
+    write(io, string(hdr, "\n", delimited))
 end
 
 prs = []
@@ -195,7 +195,7 @@ for ref in reff
 end
 idxfile = "data/scholia-iliad-idx.cex"
 open(idxfile, "w") do io
-    write(io, join(prs,"\n"))
+    write(io, string("scholion|iliad\n", join(prs,"\n")))
 end
 
 
