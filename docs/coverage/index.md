@@ -7,12 +7,12 @@ nav_order: 1
 
 # Current coverage of editing
 
-This page was automatically composed at 12:01 on June 25, 2021.
+This page was automatically composed at 12:01 on June 26, 2021.
 
-Total citable nodes: 9258
+Total citable nodes: 7684
 
-Iliad lines: 4138
+Iliad lines: 3479
 
-Scholia: 1784
+Scholia: 1479
 
 ![Summary of coverage](./coverage.png)
