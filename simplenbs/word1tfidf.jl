@@ -19,9 +19,9 @@ using TextAnalysis, CitableCorpus, CitableText, PlutoUI, Markdown, CiteEXchange,
 # ╔═╡ 3ced021a-5548-464c-8448-4cdbf62c2fb0
 md""">## Explore salient terms
 >
->Search the text of Dué and Ebbott's translation of *Iliad* 10.  The display shows the TF-IDF score for that term in that line.
+>Search the *scholia* in in-progress work on *Iliad* 8 and 10.
 >
->(In this notebook, each *line* is treated as a *document*.)
+>(In this notebook, each *scholion*'s comment is treated as a *document*.)
 """
 
 # ╔═╡ c6405d2c-5c14-4ee1-bf6d-165f3e0d9ec3
@@ -185,14 +185,6 @@ m.terms |> length
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
-[compat]
-CitableCorpus = "~0.2.1"
-CitableText = "~0.9.0"
-CiteEXchange = "~0.3.0"
-HTTP = "~0.9.10"
-PlutoUI = "~0.7.9"
-TextAnalysis = "~0.7.3"
-
 [deps]
 CitableCorpus = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
 CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
@@ -202,6 +194,14 @@ Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 TextAnalysis = "a2db99b7-8b79-58f8-94bf-bbc811eef33d"
 Unicode = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+
+[compat]
+CitableCorpus = "~0.2.1"
+CitableText = "~0.9.0"
+CiteEXchange = "~0.3.0"
+HTTP = "~0.9.10"
+PlutoUI = "~0.7.9"
+TextAnalysis = "~0.7.3"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
