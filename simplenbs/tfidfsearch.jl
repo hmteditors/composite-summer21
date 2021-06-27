@@ -20,8 +20,11 @@ using TextAnalysis, CitableCorpus, CitableText, PlutoUI, Markdown, CiteEXchange,
 md""">## Explore salient terms
 >
 >Search the *scholia* in in-progress work on *Iliad* 8 and 10.
+> See "documents" containing the term, and the TF-IDF score for the
+> term in each document. (In this notebook, each *scholion*'s comment is treated as a *document*.)
 >
->(In this notebook, each *scholion*'s comment is treated as a *document*.)
+> For each matching document, the results display both a full text of the scholion, and a version
+> highlighting the term in a text without accents or breathings.
 """
 
 # ╔═╡ c6405d2c-5c14-4ee1-bf6d-165f3e0d9ec3
@@ -163,7 +166,7 @@ begin
 	label = matchcount == 1 ? "**1** occurrence" : "**$matchcount** occurrences"
 	display = """$label of `term $termidx` *$term*.
 
-Term frequency in corpus: $(lexical_frequency(corp, term))
+Term frequency in corpus: **$(round(lexical_frequency(corp, term); digits=5))**
 """
 	Markdown.parse(display)
 	end
