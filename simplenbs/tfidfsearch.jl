@@ -48,6 +48,17 @@ function highlight(term, txt)
 	wrapped
 end
 
+# ╔═╡ 3d7bafa0-1819-4944-8648-fc26da7213b6
+	hint(text, label) = Markdown.MD(Markdown.Admonition("warn", label, [text]))
+
+# ╔═╡ fa925d14-98ee-46c0-8732-8e85b5a138c9
+
+	hint(md"""
+- remove punctuation from stripped corpus in order to get more relevant TF-IDF score.
+- score average word length of scholia with this term
+
+""", "Features to add")
+
 # ╔═╡ 91dee988-3378-47da-803f-4d839b828c4a
 css = html"""
 <style>
@@ -643,6 +654,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 
 # ╔═╡ Cell order:
 # ╟─a492f62a-d420-11eb-04f5-29615000168a
+# ╟─fa925d14-98ee-46c0-8732-8e85b5a138c9
 # ╟─3ced021a-5548-464c-8448-4cdbf62c2fb0
 # ╟─e2e87b56-8003-41f8-8660-55e557665276
 # ╟─c6405d2c-5c14-4ee1-bf6d-165f3e0d9ec3
@@ -655,6 +667,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─cf4f497b-0ef6-4e50-8aef-f0fe945222dc
 # ╟─13092236-e810-4ace-aa40-8250edbad095
 # ╟─3ecf3e9f-328e-4265-b99c-ed5784be1301
+# ╠═3d7bafa0-1819-4944-8648-fc26da7213b6
 # ╟─91dee988-3378-47da-803f-4d839b828c4a
 # ╟─d1531ae6-06a8-4723-88cc-c4fe00d8f8a6
 # ╟─bba171b2-f0a9-4172-a7e9-5d365a1b4f22
