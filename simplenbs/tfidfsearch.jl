@@ -26,7 +26,7 @@ md""">## Explore salient terms
 
 # ╔═╡ c6405d2c-5c14-4ee1-bf6d-165f3e0d9ec3
 md"""
-Term: $(@bind rawterm TextField(;default="κῶλον"))
+Term: $(@bind rawterm TextField(;default=""))
 """
 
 # ╔═╡ f6d71fbd-cf3b-4ee3-a45a-4108f28a84d5
@@ -54,6 +54,9 @@ css = html"""
 }
 .scholion {
 	background-color: white;
+}
+.hint {
+	color: silver;
 }
 </style>
 """
@@ -154,13 +157,16 @@ termidx = findfirst(t -> t == term, m.terms)
 
 # ╔═╡ e2e87b56-8003-41f8-8660-55e557665276
 begin
+	if isempty(term)
+		HTML("<span class=\"hint\">Please enter a term</span>")
+	else
 	label = matchcount == 1 ? "**1** occurrence" : "**$matchcount** occurrences"
 	display = """$label of `term $termidx` *$term*.
 
 Term frequency in corpus: $(lexical_frequency(corp, term))
 """
 	Markdown.parse(display)
-
+	end
 end
 
 # ╔═╡ 0caceb74-ece3-41b6-aae5-b55f34b88cd1
@@ -635,9 +641,9 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─a492f62a-d420-11eb-04f5-29615000168a
 # ╟─3ced021a-5548-464c-8448-4cdbf62c2fb0
+# ╟─e2e87b56-8003-41f8-8660-55e557665276
 # ╟─c6405d2c-5c14-4ee1-bf6d-165f3e0d9ec3
 # ╟─f6d71fbd-cf3b-4ee3-a45a-4108f28a84d5
-# ╟─e2e87b56-8003-41f8-8660-55e557665276
 # ╟─2f5200bc-03c7-4423-b23b-6e0fdf9e9ade
 # ╟─99dab151-d9bb-43d0-b215-3c38482d3d50
 # ╟─0526b4e1-cd16-4fab-8951-1c1bfac4d465
@@ -664,6 +670,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─2699073c-dd9d-4dae-af37-077e85fad819
 # ╟─93533849-f297-4479-9b63-d4f6754e4e08
 # ╟─0caceb74-ece3-41b6-aae5-b55f34b88cd1
-# ╠═dabf76d8-faea-43a3-9589-9521af253f32
+# ╟─dabf76d8-faea-43a3-9589-9521af253f32
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
