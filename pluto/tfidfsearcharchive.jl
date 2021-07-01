@@ -30,7 +30,7 @@ end
 # ╔═╡ 3ced021a-5548-464c-8448-4cdbf62c2fb0
 md""">## Explore salient terms in HMT archive of *scholia*
 >
->Search the *scholia* in in-progress work on *Iliad* 8 and 10.
+>Search the *scholia* in the HMT archive.
 > See "documents" containing the term, and the TF-IDF score for the
 > term in each document. (In this notebook, each *scholion*'s comment is treated as a *document*.)
 >
