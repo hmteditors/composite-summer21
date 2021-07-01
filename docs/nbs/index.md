@@ -33,5 +33,5 @@ Links to the same notebooks running on mybinder:
 
 ## More
 
-- [search HMT archive](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fsimplenbs%252Ftfidfsearcharchive.jl) with TF-IDF score of term
+- [search HMT archive](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Ftfidfsearcharchive.jl) with TF-IDF score of term
 
