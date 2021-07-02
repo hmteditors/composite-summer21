@@ -12,7 +12,7 @@ has_children: true
 
 Interactive analysis available from notebooks you can run locally in this repository:
 
-- `search.jl`: search text of scholia
+- `tfidfsearcharchive.jl`: search text of scholia (includes TF-IDF score of terms)
 - `reader.jl`: a mulitextual reader.  Read *scholia* and *Iliad* texts for a given book/line reference.
 - `zipfer.jl`: graph frequency of terms in the *scholia*
 - `persfreqs.jl`: graph frequency of personal names
@@ -22,16 +22,11 @@ Interactive analysis available from notebooks you can run locally in this reposi
 
 Links to the same notebooks running on mybinder:
 
-- [search text of scholia](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Fsearch.jl)
+- [search HMT archive](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Ftfidfsearcharchive.jl) with TF-IDF score of term
 -  a mulitextual reader.  Read [scholia and *Iliad* texts for a given book/line reference](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Freader.jl)
 - [graph frequency of terms in the *scholia*](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Fzipfer.jl)
 - [graph frequency of personal names](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Fpersfreqs.jl)
 - browse facsimile by page reference
 - browse facsimile by *Iliad* reference
 
-
-
-## More
-
-- [search HMT archive](https://binder.plutojl.org/v0.14.7/open?url=https%253A%252F%252Fraw.githubusercontent.com%252Fhmteditors%252Fcomposite-summer21%252Fmain%252Fpluto%252Ftfidfsearcharchive.jl) with TF-IDF score of term
 
