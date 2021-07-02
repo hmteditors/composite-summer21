@@ -141,29 +141,8 @@ c = CitableCorpus.fromurl(CitableTextCorpus, url, "|")
 reff = filter(cn -> endswith(cn.urn.urn, "ref"), c.corpus)
 
 # ╔═╡ f60970e8-ca28-458a-b23d-a581c960e3f1
-comments = filter(cn -> endswith(cn.urn.urn, "comment"), c.corpus)
-
-# ╔═╡ 13092236-e810-4ace-aa40-8250edbad095
-function formatscholion(i)
-
-	scholurn = comments[i].urn
-	docid = workparts(scholurn)[2]
-		
-	
-	scholpsg = collapsePassageBy(scholurn, 1) |>  passagecomponent
-	ref = replace(passagecomponent(scholurn), "comment" => "ref")
-	refurn = addpassage(scholurn, ref)
-	iliad = filter(cn -> cn.urn == refurn, c.corpus)
-	if isempty(iliad)
-
-		string("<b>", docid, "</b> ", scholpsg, " <span class=\"error\">", "Could not find <i>Iliad</i> reference for scholion ", "<code>",refurn.urn,"</code></span>")
-	else
-		iliadurn = CtsUrn(iliad[1].text)
-		ilmatches = length(iliad)
-	
-		string("<b>", docid, "</b> ", scholpsg,  ", commenting on <b><i>Iliad</i> ", passagecomponent(iliadurn), "</b> <blockquote class=\"scholion\">", comments[i].text,"</blockquote>" )
-	end
-	
+comments = begin
+	filter(cn -> endswith(cn.urn.urn, "comment"), c.corpus)
 end
 
 # ╔═╡ 33a8a1e4-e56e-4b32-b517-430b6ab40cb9
@@ -187,7 +166,29 @@ md"""Manuscript $(@bind ms Select(menu))
 # filter nodes according to user's selected MS
 msnodes = begin
 	commentnodes = filter(cn -> ! isempty(cn.text), comments)
-	ms == "all" ? commentnodes : filter(cn -> occursin(ms, cn.urn.urn), commentnodes) 
+	ms == "all" ? commentnodes : filter(cn -> occursin(string(ms, "."), cn.urn.urn), commentnodes) 
+end
+
+# ╔═╡ 13092236-e810-4ace-aa40-8250edbad095
+function formatscholion(i)
+
+	scholurn = msnodes[i].urn
+	docid = workparts(scholurn)[2]
+	scholpsg = collapsePassageBy(scholurn, 1) |>  passagecomponent
+	ref = replace(passagecomponent(scholurn), "comment" => "ref")
+	refurn = addpassage(scholurn, ref)
+	iliad = filter(cn -> cn.urn == refurn, c.corpus)
+	if isempty(iliad)
+		string("<b>", docid, "</b> ", scholpsg, " <span class=\"error\">", "Could not find <i>Iliad</i> reference for scholion ", "<code>", refurn.urn,"</code></span>")
+		
+		
+	else
+		iliadurn = CtsUrn(iliad[1].text)
+		ilmatches = length(iliad)
+	
+		string("<b>", docid, "</b> ", scholpsg,  ", commenting on <b><i>Iliad</i> ", passagecomponent(iliadurn), "</b> <blockquote class=\"scholion\">", comments[i].text,"</blockquote>" )
+	end
+	
 end
 
 # ╔═╡ bba171b2-f0a9-4172-a7e9-5d365a1b4f22
