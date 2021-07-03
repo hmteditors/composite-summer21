@@ -1,12 +1,12 @@
+# Build a citable corpus of all archival XML in the HMT archive.
 using CitableText
 using CitableCorpus
 using EditorsRepo
 
 
-archiveroot = string(pwd() |> dirname, "/archive")
-repo = repository(archiveroot; dse="dse-data", config="textconfigs")
+archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
+repo = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
 citation = citation_df(repo)
-
 
 # Create a citable corpus of archival text in a repo
 function archivalcorpus(r::EditingRepository, citesdf)
@@ -29,12 +29,3 @@ function archivalcorpus(r::EditingRepository, citesdf)
 end
 
 archivaltexts = archivalcorpus(repo, citation)
-
-texts = texturns(repo)
-normednodes = []
-for t in texts
-    nds = normalizednodes(repo, t)
-    push!(normednodes, nds)        
-end
-normed = filter(nodelist -> ! isnothing(nodelist), normednodes) |> Iterators.flatten |> collect |> CitableTextCorpus
-normed.corpus |> length
