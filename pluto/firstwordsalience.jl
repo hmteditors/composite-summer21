@@ -144,29 +144,6 @@ reff = filter(cn -> endswith(cn.urn.urn, "ref"), c.corpus)
 # ╔═╡ f60970e8-ca28-458a-b23d-a581c960e3f1
 comments = filter(cn -> endswith(cn.urn.urn, "comment"), c.corpus)
 
-# ╔═╡ 13092236-e810-4ace-aa40-8250edbad095
-function formatscholion(i)
-
-	scholurn = comments[i].urn
-	docid = workparts(scholurn)[2]
-		
-	
-	scholpsg = collapsePassageBy(scholurn, 1) |>  passagecomponent
-	ref = replace(passagecomponent(scholurn), "comment" => "ref")
-	refurn = addpassage(scholurn, ref)
-	iliad = filter(cn -> cn.urn == refurn, c.corpus)
-	if isempty(iliad)
-
-		string("<b>", docid, "</b> ", scholpsg, " <span class=\"error\">", "Could not find <i>Iliad</i> reference for scholion ", "<code>",refurn.urn,"</code></span>")
-	else
-		iliadurn = CtsUrn(iliad[1].text)
-		ilmatches = length(iliad)
-	
-		string("<b>", docid, "</b> ", scholpsg,  ", commenting on <b><i>Iliad</i> ", passagecomponent(iliadurn), "</b> <blockquote class=\"scholion\">", comments[i].text,"</blockquote>" )
-	end
-	
-end
-
 # ╔═╡ 33a8a1e4-e56e-4b32-b517-430b6ab40cb9
 comments |> length
 
@@ -190,6 +167,32 @@ msnodes = begin
 	commentnodes = filter(cn -> ! isempty(cn.text), comments)
 	ms == "all" ? commentnodes : filter(cn -> occursin(ms, cn.urn.urn), commentnodes) 
 end
+
+# ╔═╡ 13092236-e810-4ace-aa40-8250edbad095
+function formatscholion(i)
+	# Oops! This only works for whole corpus!
+	scholurn = msnodes[i].urn
+	docid = workparts(scholurn)[2]
+		
+	
+	scholpsg = collapsePassageBy(scholurn, 1) |>  passagecomponent
+	ref = replace(passagecomponent(scholurn), "comment" => "ref")
+	refurn = addpassage(scholurn, ref)
+	iliad = filter(cn -> cn.urn == refurn, c.corpus)
+	if isempty(iliad)
+
+		string("<b>", docid, "</b> ", scholpsg, " <span class=\"error\">", "Could not find <i>Iliad</i> reference for scholion ", "<code>",refurn.urn,"</code></span>")
+	else
+		iliadurn = CtsUrn(iliad[1].text)
+		ilmatches = length(iliad)
+	
+		string("<b>", docid, "</b> ", scholpsg,  ", commenting on <b><i>Iliad</i> ", passagecomponent(iliadurn), "</b> <blockquote class=\"scholion\">", msnodes[i].text,"</blockquote>" )
+	end
+	
+end
+
+# ╔═╡ 86773f34-c7c3-4375-a5e4-db6cedbec345
+msnodes |> length
 
 # ╔═╡ bba171b2-f0a9-4172-a7e9-5d365a1b4f22
 srcdocs = txtforcomments(msnodes)
@@ -308,6 +311,7 @@ m.terms |> length
 # ╟─91dee988-3378-47da-803f-4d839b828c4a
 # ╟─d1531ae6-06a8-4723-88cc-c4fe00d8f8a6
 # ╟─d4019870-2a30-4c6b-962e-deb3618abd4c
+# ╟─86773f34-c7c3-4375-a5e4-db6cedbec345
 # ╟─bba171b2-f0a9-4172-a7e9-5d365a1b4f22
 # ╟─06cb6c91-2436-4937-9dc6-a49263413350
 # ╟─5d904b6c-80c3-4a8a-ba11-82fba50be209
