@@ -1,4 +1,6 @@
-# Build a citable corpus of all archival XML in the HMT archive.
+# Build a citable corpus of all archival XML in the HMT archive
+# and write it to a CEX file.
+#
 using CitableText
 using CitableCorpus
 using EditorsRepo
