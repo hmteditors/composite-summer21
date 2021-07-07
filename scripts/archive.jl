@@ -8,7 +8,7 @@ archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 repo = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
 
 
-# Create a citable corpus of archival text in a repo
+#= Create a citable corpus of archival text in a repo
 function archivalcorpus(r::EditingRepository)
     citesdf = citation_df(repo)
     urns = citesdf[:, :urn]
@@ -28,22 +28,20 @@ function archivalcorpus(r::EditingRepository)
     end
     CitableCorpus.composite_array(corpora)
 end
-
+=#
 archivaltexts = archivalcorpus(repo)
-nonempty = filter(cn -> ! isempty(cn.text), archivaltexts.corpus) |> CitableTextCorpus
-rawcex = cex(nonempty)
-rawcex |> length
-
-lines = split(rawcex,"\n")
-tidierlines = ["urn|text"]
-for ln in lines
-    push!(tidierlines, replace(ln, r"[\s]+" => " " ))
+function writearchivalcex(c::CitableTextCorpus, f = "data/archive-xml.cex")
+    nonempty = filter(cn -> ! isempty(cn.text), c.corpus) |> CitableTextCorpus
+    rawcex = cex(nonempty)
+    lines = split(rawcex,"\n")
+    tidierlines = ["urn|text"]
+    for ln in lines
+        push!(tidierlines, replace(ln, r"[\s]+" => " " ))
+    end
+    tidier = join(tidierlines, "\n")
+    open(f, "w") do io
+        write(io, tidier)
+    end
 end
 
-tidier = join(tidierlines, "\n")
-
-
-tidier |> length
-open("data/archive-xml.cex", "w") do io
-    write(io, tidier)
-end
+writearchivalcex(archivaltexts)
