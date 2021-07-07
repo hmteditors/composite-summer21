@@ -6,10 +6,11 @@ using EditorsRepo
 
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 repo = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
-citation = citation_df(repo)
+
 
 # Create a citable corpus of archival text in a repo
-function archivalcorpus(r::EditingRepository, citesdf)
+function archivalcorpus(r::EditingRepository)
+    citesdf = citation_df(repo)
     urns = citesdf[:, :urn]
 
     corpora = []
@@ -28,4 +29,21 @@ function archivalcorpus(r::EditingRepository, citesdf)
     CitableCorpus.composite_array(corpora)
 end
 
-archivaltexts = archivalcorpus(repo, citation)
+archivaltexts = archivalcorpus(repo)
+nonempty = filter(cn -> ! isempty(cn.text), archivaltexts.corpus) |> CitableTextCorpus
+rawcex = cex(nonempty)
+rawcex |> length
+
+lines = split(rawcex,"\n")
+tidierlines = ["urn|text"]
+for ln in lines
+    push!(tidierlines, replace(ln, r"[\s]+" => " " ))
+end
+
+tidier = join(tidierlines, "\n")
+
+
+tidier |> length
+open("data/archive-xml.cex", "w") do io
+    write(io, tidier)
+end
