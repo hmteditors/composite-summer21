@@ -4,7 +4,8 @@ using CitableText
 using EzXML
 
 
-f = "data/archive-xml.cex"
+f = "data/
+-xml.cex"
 archival = CitableCorpus.fromfile(CitableTextCorpus, f)
 
 
@@ -23,6 +24,12 @@ for cn in archival.corpus
             push!(errors, (cn.urn.urn, "No @n attribute"))
         end
     end
+end
+
+errfile = "urnerrors-sorted.txt"
+sorted = sort(errors)
+open(errfile,"w") do io
+    write(io, join(sorted, "\n"))
 end
 
 count = 0
