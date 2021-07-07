@@ -4,8 +4,7 @@ using CitableText
 using EzXML
 
 
-f = "data/
--xml.cex"
+f = "data/archival-xml.cex"
 archival = CitableCorpus.fromfile(CitableTextCorpus, f)
 
 
