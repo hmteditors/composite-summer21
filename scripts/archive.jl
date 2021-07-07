@@ -29,3 +29,11 @@ function archivalcorpus(r::EditingRepository, citesdf)
 end
 
 archivaltexts = archivalcorpus(repo, citation)
+nonempty = filter(cn -> ! isempty(cn.text), archivaltexts.corpus) |> CitableTextCorpus
+rawcex = cex(nonempty)
+rawcex |> length
+tidier = replace(rawcex, r"[\s]+" => " " )
+tidier |> length
+open("data/archive-xml.cex", "w") do io
+    write(io, tidier)
+end
