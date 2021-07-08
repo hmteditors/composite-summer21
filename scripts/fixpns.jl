@@ -20,10 +20,10 @@ for cn in archival.corpus
             try
                 pnurn = Cite2Urn(pn["n"])
             catch e
-                push!(errors, (cn.urn.urn, "Bad URN value " * pn["n"]))
+                push!(errors, string(cn.urn.urn, " Bad URN value ", pn["n"], " ", pn.content))
             end
         else
-            push!(errors, (cn.urn.urn, "No @n attribute"))
+            push!(errors, string(cn.urn.urn, "No @n attribute on ", pn.content))
         end
     end
 end
@@ -37,6 +37,7 @@ end
 println("Total pns: ", count)
 
 
+### Write out a markdown-formatted verification report
 
 verifiable = Dict()
 # Prepare data for verification
