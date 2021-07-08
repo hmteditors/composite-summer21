@@ -1,3 +1,5 @@
+# Create DataFrame for persname authlist, lookup
+# labels by URN value
 using CSV
 using DataFrames
 using HTTP
