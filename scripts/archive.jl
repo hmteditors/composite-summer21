@@ -20,10 +20,11 @@ function writearchivalcex(c::CitableTextCorpus, f = "data/archive-xml.cex")
     end
 end
 
-
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 repo = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
+
+
+# Rerun these two lines to update:
 archivaltexts = archivalcorpus(repo)
 writearchivalcex(archivaltexts)
 
-#
