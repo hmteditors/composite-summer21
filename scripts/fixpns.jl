@@ -1,18 +1,21 @@
+# Find persname errors in HMT archive
 using CitableCorpus
 using CitableObject
 using CitableText
 using EzXML
 
 
-f = "data/archival-xml.cex"
+f = "data/archive-xml.cex"
 archival = CitableCorpus.fromfile(CitableTextCorpus, f)
 
 
 errors = []
+count = 0
 for cn in archival.corpus
     root = parsexml(cn.text).root
     pns = findall("//persName", root)
     for pn in pns
+        count = count + 1
         if haskey(pn, "n")
             try
                 pnurn = Cite2Urn(pn["n"])
@@ -24,19 +27,13 @@ for cn in archival.corpus
         end
     end
 end
-
+errors |> length
 errfile = "urnerrors-sorted.txt"
 sorted = sort(errors)
 open(errfile,"w") do io
     write(io, join(sorted, "\n"))
 end
 
-count = 0
-for cn in archival.corpus
-    root = parsexml(cn.text).root
-    pns = findall("//persName", root)
-    count = count + length(pns)
-end
 println("Total pns: ", count)
 
 
