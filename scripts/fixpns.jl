@@ -4,37 +4,45 @@ using CitableObject
 using CitableText
 using EzXML
 
-
 f = "data/archive-xml.cex"
-archival = CitableCorpus.fromfile(CitableTextCorpus, f)
 
 
-errors = []
-count = 0
-for cn in archival.corpus
-    root = parsexml(cn.text).root
-    pns = findall("//persName", root)
-    for pn in pns
-        count = count + 1
-        if haskey(pn, "n")
-            try
-                pnurn = Cite2Urn(pn["n"])
-            catch e
-                push!(errors, string(cn.urn.urn, " Bad URN value ", pn["n"], " ", pn.content))
+# Cycle through a corpus, and write an error report
+# on all persName tags
+function writeerrors(c::CitableTextCorpus)
+    errors = []
+    count = 0
+    for cn in c.corpus
+        root = parsexml(cn.text).root
+        pns = findall("//persName", root)
+        for pn in pns
+            count = count + 1
+            if haskey(pn, "n")
+                try
+                    pnurn = Cite2Urn(pn["n"])
+                catch e
+                    push!(errors, string(cn.urn.urn, " Bad URN value ", pn["n"], " ", pn.content))
+                end
+            else
+                push!(errors, string(cn.urn.urn, "No @n attribute on ", pn.content))
             end
-        else
-            push!(errors, string(cn.urn.urn, "No @n attribute on ", pn.content))
         end
     end
-end
-errors |> length
-errfile = "urnerrors-sorted.txt"
-sorted = sort(errors)
-open(errfile,"w") do io
-    write(io, join(sorted, "\n"))
+    errfile = "urnerrors-sorted.txt"
+    sorted = sort(errors)
+    open(errfile,"w") do io
+        write(io, join(sorted, "\n"))
+    end
+    println("Found ", length(errors), " invalid URNs  in ", count, " total persName tags.")
 end
 
-println("Total pns: ", count)
+
+# Rerun these two lines for new error report:
+archival = CitableCorpus.fromfile(CitableTextCorpus, f)
+writeerrors(archival)
+
+
+
 
 
 ### Write out a markdown-formatted verification report
