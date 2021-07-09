@@ -10,7 +10,12 @@ using EditorsRepo
 # They should be cloned in a directory parallel to this repository.
 repodirs = [
     "burney86-book8",
-    "vb-2021"
+    "vb-2021",
+    "se2021-1",
+    "se2021-2",
+    "se2021-3",
+    "se2021-4",
+    "se2021-5"
 ]
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 archive = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
