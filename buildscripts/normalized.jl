@@ -1,16 +1,37 @@
+# Build a single corpus of normalized editions of all texts in the HMT archive
+# and in the in-progress repositories listed here, and write it to a CEX file.
+#
+
 using CitableText
 using CitableCorpus
 using EditorsRepo
 
-parent = pwd() |> dirname
-archiveroot = string(parent, "/hmt-archive/archive")
-repo = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
+# Names of repositories with work in progress.
+# They should be cloned in a directory parallel to this repository.
+repodirs = [
+    "burney86-book8",
+    "vb-2021"
+]
+archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
+archive = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
 
-texts = texturns(repo)
+# Instantiate EditorialRepository's:
+function repolist(dirlist)
+    container = pwd() |> dirname
+    map(dir -> repository(string(container, "/", dir)), dirlist)
+end
+repos = repolist(repodirs)
+push!(repos, archive)
+
+
 normednodes = []
-for t in texts
-    nds = normalizednodes(repo, t)
-    push!(normednodes, nds)        
+
+for r in repos
+    texts = texturns(r)
+    for t in texts
+        nds = normalizednodes(r, t)
+        push!(normednodes, nds)        
+    end
 end
 normed = filter(nodelist -> ! isnothing(nodelist), normednodes) |> Iterators.flatten |> collect 
 normcorpus = filter(cn -> ! isempty(cn.text), normed) |> CitableTextCorpus
