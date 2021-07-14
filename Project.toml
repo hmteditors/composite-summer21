@@ -26,7 +26,7 @@ Vega = "239c3e63-733f-47ad-beb7-a12fde22c578"
 
 [compat]
 CSV = "0.8"
-CitableCorpus = "0.2"
+CitableCorpus = "0.3"
 CitableImage = "0.1"
 CitableObject = "0.6"
 CitablePhysicalText = "0.2"
