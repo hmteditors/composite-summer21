@@ -6,6 +6,7 @@
 # They should be cloned in a directory parallel to this repository.
 repodirs = [
     "burney86-book8",
+    "burney86-book4",
     "vb-2021"
 ]
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
@@ -14,6 +15,7 @@ archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 using CitableText
 using CitableCorpus
 using EditorsRepo
+using TextAnalysis
 
 # Instantiate EditorialRepository's:
 function repolist(dirlist)
