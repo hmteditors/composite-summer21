@@ -48,26 +48,6 @@ md"""Enter an *Iliad* passage (`book.line`) $(@bind psg TextField((6,1); default
 # ╔═╡ f245588b-ee3b-48a1-83a5-682100623b72
 md"> Datasets"
 
-# ╔═╡ b4f2795c-bf4f-4679-a0e9-f5cd9dd0f606
-function loadcorpora()
-	reporoot = pwd() |> dirname
-	url = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/archive-normed.cex"
-	archivecorpus = fromurl(CitableTextCorpus, url, "|")
-	archivecorpus
-end
-
-# ╔═╡ 3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
-# Load current corpus 
-c = loadcorpora()
-
-# ╔═╡ 9d985a3b-182d-45f8-8cd2-33615971ce09
-# Corpus after dropping citable node with "ref" info in scholia.
-noreff = filter(cn -> ! endswith(cn.urn.urn, "ref"),  c.corpus) 
-
-# ╔═╡ 6213874b-7425-4081-aadc-5b894c593822
-# Corpus after dropping citable node with "ref" info in scholia.
-archivalreff = filter(cn -> endswith(cn.urn.urn, "ref"),  c.corpus) 
-
 # ╔═╡ f5ed604b-e469-4b02-9604-c9b80ad5908c
 # Convert "ref" element of scholion to a tuple of scholion/iliad URNs
 function indexref(cn)
@@ -76,24 +56,6 @@ function indexref(cn)
 	(scholion, iliad)
 	
 end
-
-# ╔═╡ 0ee82e23-85e7-40e5-8a2a-27e7609d25aa
-# Load current index of scholia to Iliad
-idx = map(cn  -> indexref(cn), archivalreff)
-
-#buildindex()
-
-# ╔═╡ 548e5db0-25bf-4e0d-927a-71f3484f2a08
-# Build a vector of tuples pairing CTS URNs for a scholion and an Iliad passage
-#=
-function buildindex()
-	idxurl = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/scholia-iliad-idx.cex"
-	df = CSV.File(HTTP.get(idxurl).body) |> DataFrame
-	scholia = map(u -> CtsUrn(u), df[:, 1])
-	iliad = map(u -> CtsUrn(u), df[:, 2])
-	zip(scholia, iliad) |> collect
-end
-=#
 
 # ╔═╡ d9baf44d-835e-4855-b9a3-291895ce670e
 md"> Local repositories with work in progress"
@@ -139,14 +101,40 @@ repos = repolist(repodirs)
 # ╔═╡ 46b2f8ce-da23-476d-8a8a-c0cedc2839ef
 wipcorpus = compositenormed(repos)
 
-# ╔═╡ e9533da4-7f77-4f21-9429-6d9496f8a67a
-localreff = filter(cn -> endswith(cn.urn.urn, "ref"), wipcorpus)
+# ╔═╡ b4f2795c-bf4f-4679-a0e9-f5cd9dd0f606
+# Load corpus from CEX file for archive, and from current 
+# state of local WIP repositories
+function loadcorpora()
+	reporoot = pwd() |> dirname
+	url = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/archive-normed.cex"
+	archivecorpus = fromurl(CitableTextCorpus, url, "|")
 
-# ╔═╡ cca0551e-9f26-42b2-9db0-ada954adeff7
-localindex = map(cn -> indexref(cn)  , localreff)
+	CitableCorpus.combine(CitableTextCorpus(wipcorpus), archivecorpus)
+end
+
+# ╔═╡ 3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
+c = loadcorpora()
+
+# ╔═╡ 9d985a3b-182d-45f8-8cd2-33615971ce09
+# Corpus after dropping citable node with "ref" info in scholia.
+noreff = filter(cn -> ! endswith(cn.urn.urn, "ref"),  c.corpus) 
+
+# ╔═╡ 6213874b-7425-4081-aadc-5b894c593822
+# Corpus after dropping citable node with "ref" info in scholia.
+reff = filter(cn -> endswith(cn.urn.urn, "ref"),  c.corpus) 
+
+# ╔═╡ 0ee82e23-85e7-40e5-8a2a-27e7609d25aa
+# Load current index of scholia to Iliad
+idx = map(cn  -> indexref(cn), reff)
 
 # ╔═╡ 3a71212c-d174-4f56-b998-58490c0fde1d
 md"> Functions and formatting"
+
+# ╔═╡ 4dfd6c6b-37c3-43a7-acce-bab3897bcfda
+begin 
+	xurn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:4")
+	xmatches = filter(pr -> urncontains(xurn, pr[2]), idx)
+end
 
 # ╔═╡ 55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # Compose HTML to display a list of CitableNodes
@@ -258,20 +246,18 @@ span.hl {
 # ╟─3996a15e-8ebf-4b74-a75a-f2e2bac9ce82
 # ╟─b4f2795c-bf4f-4679-a0e9-f5cd9dd0f606
 # ╟─9d985a3b-182d-45f8-8cd2-33615971ce09
-# ╠═6213874b-7425-4081-aadc-5b894c593822
-# ╠═0ee82e23-85e7-40e5-8a2a-27e7609d25aa
+# ╟─6213874b-7425-4081-aadc-5b894c593822
+# ╟─0ee82e23-85e7-40e5-8a2a-27e7609d25aa
 # ╟─f5ed604b-e469-4b02-9604-c9b80ad5908c
-# ╠═548e5db0-25bf-4e0d-927a-71f3484f2a08
 # ╟─d9baf44d-835e-4855-b9a3-291895ce670e
-# ╠═46b2f8ce-da23-476d-8a8a-c0cedc2839ef
+# ╟─46b2f8ce-da23-476d-8a8a-c0cedc2839ef
 # ╟─da888f98-0095-4a8a-a16c-598b50c0a509
-# ╠═e9533da4-7f77-4f21-9429-6d9496f8a67a
-# ╠═cca0551e-9f26-42b2-9db0-ada954adeff7
 # ╟─7a2aa0f6-cbdd-4099-b1d0-f304efe55a1a
 # ╟─52f03907-261d-4d26-b5e0-5477bc3b5990
 # ╟─1d873fa9-5759-409f-ad7d-233ee6a29be9
 # ╟─3a71212c-d174-4f56-b998-58490c0fde1d
-# ╟─4ef41735-2532-40a2-b1b1-21bdf9bf9765
+# ╠═4dfd6c6b-37c3-43a7-acce-bab3897bcfda
+# ╠═4ef41735-2532-40a2-b1b1-21bdf9bf9765
 # ╟─55ff794c-9159-4bde-8e1f-b7df001ca6d8
 # ╟─1d5e2f8a-fa95-4adb-87e0-d22f95089689
 # ╟─b23b45f7-1f82-4ad4-b2d6-4099588b7902
