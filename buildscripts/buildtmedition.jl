@@ -12,6 +12,7 @@ using HmtTopicModels
 using TopicModelsVB
 using TextAnalysis
 
+mod(6,6)
 
 stopsfile = string(pwd() |> dirname, "/scholia-transmission/data/stops.txt")
 stops = readdlm(stopsfile)
@@ -31,6 +32,39 @@ nonempty = filter(cn -> ! isempty(strip(cn.text)), tmed.corpus) |> CitableTextCo
 tmfile = "data/topicmodelingedition.cex"
 open(tmfile, "w") do io
     write(io, string("urn|text\n", cex(nonempty) ,"\n"))
+end
+
+# Build source corpus:
+#
+# THIS IS VERY SLOW: ONLY REBUILD WHEN UPDATES TO CONTENT OF ARCHIVE REQUIRES
+# RESULTS IN NEW NUMBER OF INCLUDED NODES.
+#
+
+diplinfile = "data/archive-normed.cex"
+diplcorpus = CitableCorpus.fromfile(CitableTextCorpus, diplinfile, "|")
+diplscholia = filter(cn -> endswith(cn.urn.urn, "comment"), diplcorpus.corpus) |> CitableTextCorpus
+
+
+srcnodes = []
+for n in 1:length(nonempty.corpus)
+    if mod(n, 200) == 0
+        @info("Checking node $n ...")
+    end
+    broad = dropversion(nonempty.corpus[n].urn)
+
+    srcmatches = filter(cn -> urncontains(broad, cn.urn), diplscholia.corpus)
+    if length(srcmatches) == 1
+        push!(srcnodes, srcmatches[1].text)
+    else
+        @warn("Failed to find match for $broad")
+        push!(srcnodes, "")
+    end
+end
+
+
+tmsrcfile = "data/topicmodelingsource.cex"
+open(tmsrcfile, "w") do io
+    write(io, string("text\n", join(srcnodes,"\n"),"\n"))
 end
 
 
