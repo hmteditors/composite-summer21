@@ -12,7 +12,6 @@ using HmtTopicModels
 using TopicModelsVB
 using TextAnalysis
 
-mod(6,6)
 
 stopsfile = string(pwd() |> dirname, "/scholia-transmission/data/stops.txt")
 stops = readdlm(stopsfile)
@@ -45,6 +44,9 @@ diplcorpus = CitableCorpus.fromfile(CitableTextCorpus, diplinfile, "|")
 diplscholia = filter(cn -> endswith(cn.urn.urn, "comment"), diplcorpus.corpus) |> CitableTextCorpus
 
 
+missingurn = CtsUrn("urn:cts:hmt:errors.missing:notfound")
+missingnode = CitableNode(missingurn, "")
+
 srcnodes = []
 for n in 1:length(nonempty.corpus)
     if mod(n, 200) == 0
@@ -54,17 +56,18 @@ for n in 1:length(nonempty.corpus)
 
     srcmatches = filter(cn -> urncontains(broad, cn.urn), diplscholia.corpus)
     if length(srcmatches) == 1
-        push!(srcnodes, srcmatches[1].text)
+        push!(srcnodes, srcmatches[1])
     else
         @warn("Failed to find match for $broad")
-        push!(srcnodes, "")
+        push!(srcnodes, missingnode)
     end
 end
 
+srccorp = CitableTextCorpus(srcnodes)
 
 tmsrcfile = "data/topicmodelingsource.cex"
 open(tmsrcfile, "w") do io
-    write(io, string("text\n", join(srcnodes,"\n"),"\n"))
+    write(io, string("text\n", cex(srccorp),"\n"))
 end
 
 
