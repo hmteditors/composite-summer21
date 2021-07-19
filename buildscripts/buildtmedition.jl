@@ -45,7 +45,7 @@ diplscholia = filter(cn -> endswith(cn.urn.urn, "comment"), diplcorpus.corpus) |
 
 
 missingurn = CtsUrn("urn:cts:hmt:errors.missing:notfound")
-missingnode = CitableNode(missingurn, "")
+missingnode = CitableNode(missingurn, "NA")
 
 srcnodes = []
 for n in 1:length(nonempty.corpus)
@@ -67,7 +67,7 @@ srccorp = CitableTextCorpus(srcnodes)
 
 tmsrcfile = "data/topicmodelingsource.cex"
 open(tmsrcfile, "w") do io
-    write(io, string("text\n", cex(srccorp),"\n"))
+    write(io, string("urn|text\n", cex(srccorp),"\n"))
 end
 
 
