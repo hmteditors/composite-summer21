@@ -22,6 +22,7 @@ tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "hmttm")
 infile = "data/archive-xml.cex"
 xmlcorpus = CitableCorpus.fromfile(CitableTextCorpus, infile, "|")
 scholia = filter(cn -> endswith(cn.urn.urn, "comment"), xmlcorpus.corpus) |> CitableTextCorpus
+#depunctuated = map(cn -> CitableNode(cn.urn, replace(cn.text, "⸌" => "")), scholia.corpus) |> CitableTextCorpus
 
 ed = edition(tmbldr,scholia)
 tmed = tmclean(ed, stops)
@@ -127,6 +128,7 @@ function writeeditions(bldr, corpus::CitableTextCorpus, outfile)
     for sch in scholia
         wk = workcomponent(sch.urn)
         parts = split(wk,".")
+
         short = string(parts[2],":",passagecomponent(sch.urn))
         push!(lines, string(short,"\tscholion\t", tidyurns(sch.text)))
     end
