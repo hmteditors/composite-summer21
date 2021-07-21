@@ -15,14 +15,16 @@ using TextAnalysis
 
 stopsfile = string(pwd() |> dirname, "/scholia-transmission/data/stops.txt")
 stops = readdlm(stopsfile)
-
 tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "hmttm")
+
+
 #xmlurl = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/archive-xml.cex"
 #xmlcorpus = CitableCorpus.fromurl(CitableTextCorpus, xmlurl, "|")
+
 infile = "data/archive-xml.cex"
 xmlcorpus = CitableCorpus.fromfile(CitableTextCorpus, infile, "|")
 scholia = filter(cn -> endswith(cn.urn.urn, "comment"), xmlcorpus.corpus) |> CitableTextCorpus
-#depunctuated = map(cn -> CitableNode(cn.urn, replace(cn.text, "⸌" => "")), scholia.corpus) |> CitableTextCorpus
+
 
 ed = edition(tmbldr,scholia)
 tmed = tmclean(ed, stops)
