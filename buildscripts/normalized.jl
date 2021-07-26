@@ -10,6 +10,7 @@ using EditorsRepo
 # They should be cloned in a directory parallel to this repository.
 repodirs = [
     "burney86-book8",
+    "burney86-book4",
     "vb-2021",
     "se2021-1",
     "se2021-2",
@@ -41,6 +42,7 @@ end
 normed = filter(nodelist -> ! isnothing(nodelist), normednodes) |> Iterators.flatten |> collect 
 normcorpus = filter(cn -> ! isempty(cn.text), normed) |> CitableTextCorpus
 
+@info("Size of corpus: $(length(normcorpus.corpus))")
 outfile = string(pwd(), "/data/archive-normed.cex")
 open(outfile,"w") do io
     write(io, cex(normcorpus))
