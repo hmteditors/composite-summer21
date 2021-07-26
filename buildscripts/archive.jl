@@ -55,7 +55,7 @@ end
 
 corpus = composite_array(corpora)
 
-realcorpus = filter(cn -> ! isempty(cn.text), normed) |> CitableTextCorpus
+realcorpus = filter(cn -> ! isempty(cn.text), corpus.corpus) |> CitableTextCorpus
 @info("Size of corpus: $(length(realcorpus.corpus))")
 writearchivalcex(realcorpus)
 
