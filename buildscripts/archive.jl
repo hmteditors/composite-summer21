@@ -49,6 +49,6 @@ for r in repos
 end
 
 corpus = composite_array(corpora)
-
+@info"Size of corpus: $(length(corpus.corpus))"
 writearchivalcex(corpus)
 
