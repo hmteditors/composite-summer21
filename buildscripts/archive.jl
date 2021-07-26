@@ -7,7 +7,12 @@
 repodirs = [
     "burney86-book8",
     "burney86-book4",
-    "vb-2021"
+    "vb-2021",
+    "se2021-1",
+    "se2021-2",
+    "se2021-3",
+    "se2021-4",
+    "se2021-5"
 ]
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 
@@ -49,6 +54,8 @@ for r in repos
 end
 
 corpus = composite_array(corpora)
-@info"Size of corpus: $(length(corpus.corpus))"
-writearchivalcex(corpus)
+
+realcorpus = filter(cn -> ! isempty(cn.text), normed) |> CitableTextCorpus
+@info("Size of corpus: $(length(realcorpus.corpus))")
+writearchivalcex(realcorpus)
 
