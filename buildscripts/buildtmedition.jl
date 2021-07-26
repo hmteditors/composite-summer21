@@ -6,15 +6,21 @@
 using CitableCorpus
 using CitableText
 using CorpusConverters
-using DelimitedFiles
+#using DelimitedFiles
 using EditionBuilders
 using HmtTopicModels
 using TopicModelsVB
 using TextAnalysis
 
+using CSV
+using HTTP
+using DataFrames
+stopsurl = "https://raw.githubusercontent.com/HCMID/scholia-transmission/main/data/stops.txt"
 
-stopsfile = string(pwd() |> dirname, "/scholia-transmission/data/stops.txt")
-stops = readdlm(stopsfile)
+stopsdf = CSV.File(HTTP.get(stopsurl).body, delim="|") |> DataFrame
+stops = stopsdf[:,1]
+#stopsfile = string(pwd() |> dirname, "/scholia-transmission/data/stops.txt")
+#stops = readdlm(stopsfile)
 tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "hmttm")
 
 
@@ -24,12 +30,12 @@ tmbldr = HmtTopicModels.HmtTMBuilder("tm builder", "hmttm")
 infile = "data/archive-xml.cex"
 xmlcorpus = CitableCorpus.fromfile(CitableTextCorpus, infile, "|")
 scholia = filter(cn -> endswith(cn.urn.urn, "comment"), xmlcorpus.corpus) |> CitableTextCorpus
-
+@info("Processing $(scholia.corpus |> length) scholia in archival XML corpus")
 
 ed = edition(tmbldr,scholia)
 tmed = tmclean(ed, stops)
 nonempty = filter(cn -> ! isempty(strip(cn.text)), tmed.corpus) |> CitableTextCorpus
-
+@info("Total scholia in TM editoin: $(nonempty.corpus |> length)")
 
 tmfile = "data/topicmodelingedition.cex"
 open(tmfile, "w") do io
@@ -45,7 +51,7 @@ end
 diplinfile = "data/archive-normed.cex"
 diplcorpus = CitableCorpus.fromfile(CitableTextCorpus, diplinfile, "|")
 diplscholia = filter(cn -> endswith(cn.urn.urn, "comment"), diplcorpus.corpus) |> CitableTextCorpus
-
+@info("Scholia in parallel diplomatic edition: $(diplscholia.corpus |> length)" )
 
 missingurn = CtsUrn("urn:cts:hmt:errors.missing:notfound")
 missingnode = CitableNode(missingurn, "NA")
@@ -65,7 +71,7 @@ for n in 1:length(nonempty.corpus)
         push!(srcnodes, missingnode)
     end
 end
-
+@info("Scholia after processing to align with tm editoin: $(srcnodes |> length)")
 srccorp = CitableTextCorpus(srcnodes)
 
 tmsrcfile = "data/topicmodelingsource.cex"
