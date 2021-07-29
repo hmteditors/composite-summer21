@@ -26,7 +26,7 @@ if length(archivalscholia.corpus) != length(normalizedcorp.corpus)
     @info("Archival: $(length(archivalscholia.corpus)), normalized: $(length(normalizedcorp.corpus))")
     archivedurns = map(cn -> dropversion(cn.urn).urn, archivalscholia.corpus)
     normalizedurns = map(cn -> dropversion(cn.urn).urn, normalizedcorp.corpus)
-    diffs = setdiff(Set(archivedurns), Set(normalizedurn))
+    diffs = setdiff(Set(archivedurns), Set(normalizedurns))
     
     open("urndiffs.txt", "w") do io
         write(io, join(diffs,"\n"))
