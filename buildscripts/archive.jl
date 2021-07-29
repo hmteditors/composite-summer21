@@ -12,14 +12,14 @@ Pkg.instantiate()
 # Names of repositories with work in progress.
 # They should be cloned in a directory parallel to this repository.
 repodirs = [
-    "burney86-book8",
-    "burney86-book4",
+    #"burney86-book8",
+    #"burney86-book4",
     "vb-2021",
-    "se2021-1",
-    "se2021-2",
-    "se2021-3",
-    "se2021-4",
-    "se2021-5"
+    #"se2021-1",
+    #"se2021-2",
+    #"se2021-3",
+    #"se2021-4",
+    #"se2021-5"
 ]
 archiveroot = string(pwd() |> dirname, "/hmt-archive/archive")
 
@@ -28,6 +28,7 @@ using CitableText
 using CitableCorpus
 using EditorsRepo
 using TextAnalysis
+using EzXML
 
 # Instantiate EditorialRepository's:
 function repolist(dirlist)
@@ -42,9 +43,15 @@ function writearchivalcex(c::CitableTextCorpus, f = "data/archive-xml.cex")
     nonempty = filter(cn -> ! isempty(cn.text), c.corpus) |> CitableTextCorpus
     rawcex = cex(nonempty)
     lines = split(rawcex,"\n")
+
     tidierlines = ["urn|text"]
     for ln in lines
-        push!(tidierlines, replace(ln, r"[\s]+" => " " ))
+        squeezed = replace(ln, r"[\s]+" => " " )
+        if isempty(strip(squeezed))
+            # skip it
+        else
+            push!(tidierlines, strip(squeezed))
+        end
     end
     tidier = join(tidierlines, "\n")
     open(f, "w") do io
@@ -53,7 +60,7 @@ function writearchivalcex(c::CitableTextCorpus, f = "data/archive-xml.cex")
 end
 
 archive = repository(archiveroot; dse="dse-data", config="textconfigs", editions="tei-editions")
-push!(repos, archive)
+#push!(repos, archive)
 
 corpora = []
 for r in repos
