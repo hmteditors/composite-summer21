@@ -1,7 +1,9 @@
 # Build a citable corpus of all archival XML in the HMT archive
 # and in the in-progress repositories listed here, and write it to a CEX file.
 #
-# Use these lines if running from shell
+# Use these lines if running from shell,
+# or skip directly to julia code if 
+# running in VS Code
 import Pkg
 @info("Activating project in ", pwd())
 Pkg.activate(".")

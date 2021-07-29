@@ -1,6 +1,13 @@
 # Build a single corpus of normalized editions of all texts in the HMT archive
 # and in the in-progress repositories listed here, and write it to a CEX file.
 #
+# Use these lines if running from shell,
+# or skip directly to "using" statements if 
+# running in VS Code
+import Pkg
+@info("Activating project in ", pwd())
+Pkg.activate(".")
+Pkg.instantiate()
 
 using CitableText
 using CitableCorpus
@@ -47,3 +54,4 @@ outfile = string(pwd(), "/data/archive-normed.cex")
 open(outfile,"w") do io
     write(io, cex(normcorpus))
 end
+@info("Wrote normalized edition to $outfile")
