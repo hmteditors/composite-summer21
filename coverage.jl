@@ -48,6 +48,7 @@ push!(mdlines, datestamp)
 
 
 # Create a citable corpus of archival text in a repo
+#=
 function archivalcorpus(r::EditingRepository, citesdf)
     urns = citesdf[:, :urn]
 
@@ -66,13 +67,13 @@ function archivalcorpus(r::EditingRepository, citesdf)
     end
     CitableCorpus.composite_array(corpora)
 end
-
+=#
 
 # Create a single archival corpus for all repos in repolist
 function fullarchive(repolist, citedf)
     corpora = []
     for r in repolist
-        push!(corpora, archivalcorpus(r, citedf))
+        push!(corpora, archivalcorpus(r))
     end
     CitableCorpus.composite_array(corpora)
 end
