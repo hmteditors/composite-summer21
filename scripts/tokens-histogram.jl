@@ -34,8 +34,8 @@ end
 
 
 # Write a histogram of lexical tokens in corpus c to file target
-function histogram(c::CitableTextCorpus, target)
-    tkns = lextokens(c)
+function histogram(c::CitableTextCorpus, target; rmacc = true)
+    tkns = lextokens(c; rmacc = rmacc)
     hist = sort(freqtable(tkns); rev=true)
     output = []
     for n in names(hist)[1]
@@ -47,7 +47,7 @@ function histogram(c::CitableTextCorpus, target)
 end
 
 
-histogram(scholia, "data/histo-scholia.cex")
+histogram(scholia, "data/histowaccs-scholia.cex";rmacc = false)
 histogram(iliad, "data/histo-iliad.cex")
 
 
