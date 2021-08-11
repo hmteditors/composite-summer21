@@ -52,6 +52,12 @@ histogram(iliad, "data/histo-iliad.cex")
 
 
 
+
+###############################
+# Bunch a different functions for 
+# doing stuff with histograms...
+#
+#
 function propidx(arr, i, n = 1)
     proptotal = arr[1:n] |> sum
     if proptotal > i
