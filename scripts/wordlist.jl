@@ -14,6 +14,9 @@ using PolytonicGreek
 url = "https://raw.githubusercontent.com/hmteditors/composite-summer21/main/data/archive-normed.cex"
 c = CitableCorpus.fromurl(CitableTextCorpus, url, "|")
 
+
+
+
 # Extract normalized set of strings for all lexical items
 # in a citable node.
 function stringsfornode(cn)
@@ -33,7 +36,18 @@ function wordlist(corp::CitableTextCorpus)
     Iterators.flatten(words) |> collect |> unique |> sort
 end
 
-words = wordlist(c)
-open("wordlist.txt", "w") do io
+# List scholia and Iliad separately
+iliadurn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:")
+scholiaurn = CtsUrn("urn:cts:greekLit:tlg5026:")
+iliad = filter(cn -> urncontains(iliadurn, cn.urn), c)|> CitableTextCorpus
+scholia = filter(cn -> urncontains(scholiaurn, cn.urn), c)|> CitableTextCorpus
+
+iliadwords = wordlist(iliad)
+open("data/wordlist-iliadl.txt", "w") do io
+    write(io, join(words,"\n"))
+end
+
+scholiawords = wordlist(scholia)
+open("data/wordlist-scholial.txt", "w") do io
     write(io, join(words,"\n"))
 end
