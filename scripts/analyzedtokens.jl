@@ -7,7 +7,7 @@ using PolytonicGreek
 using CitableParserBuilder
 using HTTP
 
-analysisdata = "https://raw.githubusercontent.com/neelsmith/Kanones.jl/main/scratch/analyses.cex"
+analysisdata = "https://raw.githubusercontent.com/neelsmith/Kanones.jl/main/scratch/scholia-analyses.cex"
 #analysisfile = "data/analyses.cex"
 lines = split(String(HTTP.get(analysisdata).body) , "\n")
 
@@ -28,6 +28,9 @@ end
 tknfile = "data/archive-tokenedition.cex"
 tkncorpus = CitableCorpus.fromfile(CitableTextCorpus, tknfile)
 
+scholiaurn = CtsUrn("urn:cts:greekLit:tlg5026:")
+scholia = filter(cn -> urncontains(scholiaurn, cn.urn) ,tkncorpus.corpus) |> CitableTextCorpus
+
 function normalizetxt(s)
     rmaccents(s) |> lowercase
 end
@@ -44,7 +47,7 @@ end
 
 
 analyzedcorpus = ["urn|token|analysiscex|tokencategory"]
-for cn in tkncorpus.corpus
+for cn in scholia.corpus
     tkn = PolytonicGreek.tokenizeLiteraryGreek(cn.text)[1]
     normed = normalizetxt(cn.text)
     if haskey(parsedict, normed)
@@ -63,6 +66,6 @@ for cn in tkncorpus.corpus
     end
 end
 
-open("data/analyzededition.cex","w") do io
+open("data/analyzededition-scholia.cex","w") do io
     write(io, join(analyzedcorpus, "\n"))
 end
