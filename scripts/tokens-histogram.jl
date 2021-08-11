@@ -8,12 +8,18 @@ using FreqTables
 using PolytonicGreek
 
 f = "data/archive-normed.cex"
-output = "histo-1.cex"
+c = CitableCorpus.fromfile(CitableTextCorpus,f)
+# Process scholia and Iliad separately
+iliadurn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:")
+scholiaurn = CtsUrn("urn:cts:greekLit:tlg5026:")
+iliad = filter(cn -> urncontains(iliadurn, cn.urn), c.corpus)|> CitableTextCorpus
+scholia = filter(cn -> urncontains(scholiaurn, cn.urn), c.corpus) |> CitableTextCorpus
 
-# src is a filename.
+
+
+# c is a text corpus.
 # Create a list of lexical tokens
-function lextokens(src; rmacc = true)
-    c = CitableCorpus.fromfile(CitableTextCorpus,f)
+function lextokens(c::CitableTextCorpus; rmacc = true)
     lextokens = []
     for cn in c.corpus
         tokenlist = PolytonicGreek.tokenizeLiteraryGreek(cn.text)
@@ -27,9 +33,9 @@ function lextokens(src; rmacc = true)
 end
 
 
-# Write a histogram of lexical tokens in src to file target
-function histogram(src, target)
-    tkns = lextokens(src)
+# Write a histogram of lexical tokens in corpus c to file target
+function histogram(c::CitableTextCorpus, target)
+    tkns = lextokens(c)
     hist = sort(freqtable(tkns); rev=true)
     output = []
     for n in names(hist)[1]
@@ -41,7 +47,8 @@ function histogram(src, target)
 end
 
 
-histogram(f, output)
+histogram(scholia, "data/histo-scholia.cex")
+histogram(iliad, "data/histo-iliad.cex")
 
 
 
